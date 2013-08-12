@@ -6,6 +6,8 @@ The US EPA Environmental Dataset Gateway (EDG) is a customized implementation of
 
 The rest of the information in this ReadMe file is from the Esri source.
 
+## Esri Notes
+
 Geoportal Server is a standards-based, open source product that enables discovery and use of geospatial resources including data and services.
 
 Geoportal Server allows you to catalog the locations and descriptions of your organization's geospatial resources in a central repository called a geoportal, which you can publish to the Internet or your intranet. Visitors to the geoportal can search and access these resources to use with their projects. If you grant them permission, visitors can also register geospatial resources with the geoportal. Geoportals give you an enterprise-level view of your geospatial resources regardless of their type or location. Resources are registered with a geoportal using metadata, which describes the location, age, quality, and other characteristics of the resources. With access to this information about resources, an organization can make decisions based on the best resources available.
