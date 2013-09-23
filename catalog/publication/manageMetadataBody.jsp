@@ -18,6 +18,22 @@
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html" %>
 <%@taglib uri="http://www.esri.com/tags-gpt" prefix="gpt" %>
 
+<%
+  String sdisuiteUpdateUrl = "";
+  String sdisuiteSamlToken = "";
+  com.esri.gpt.sdisuite.IntegrationContextFactory sdisuiteICF  = new com.esri.gpt.sdisuite.IntegrationContextFactory();
+  if (sdisuiteICF.isIntegrationEnabled()) {
+    com.esri.gpt.sdisuite.IntegrationContext sdisuiteIC = sdisuiteICF.newIntegrationContext();
+    if (sdisuiteIC != null) {
+      sdisuiteSamlToken = sdisuiteIC.getBase64EncodedToken(
+          com.esri.gpt.framework.context.RequestContext.extract(request).getUser());
+      if (sdisuiteSamlToken != null) {
+        sdisuiteUpdateUrl = com.esri.gpt.framework.util.Val.chkStr(sdisuiteICF.getSmartEditorStartWithUrl());
+      }
+    }
+  }
+%>
+
 <f:verbatim>
 
 <style type="text/css">
@@ -154,6 +170,10 @@ function mmdOnActionButtonClicked() {
           var elActionDropdown = mmdFindActionDropdown();
           if (elActionDropdown != null) {
             var sAction = elActionDropdown.options[elActionDropdown.selectedIndex].value;
+            if (sAction == "downloadCsv") {
+                downloadCsv(sUuids);
+                bContinue = false;
+            }
             if (sAction == "delete") {
               bContinue = confirm(sMsgDel);
             }
@@ -177,13 +197,6 @@ function mmdOnActionChanged(elSelect) {
     if (elTransfer) elTransfer.style.display = sDisplay;
     if (elTransferLabel) elTransferLabel.style.display = sDisplay;
 
-    sId = elSelect.form.id+":mmdSharingPanel";
-    sDisplay = "none";
-    if ((sOpt == "shareWith") || (sOpt == "dontShareWith")) {
-      sDisplay = "inline";
-    }
-    var elSharingPanel = document.getElementById(sId);
-    if (elSharingPanel) elSharingPanel.style.display = sDisplay;
 
     var sFormId = elSelect.form.id+":mmdAcl";
     var sFormIdToggle = elSelect.form.id+":mmdAclToggle";
@@ -192,7 +205,7 @@ function mmdOnActionChanged(elSelect) {
     if(elAclScrollPanel == null) elAclScrollPanel = document.getElementById(elSelect.form.id+":toggleScrollPanel");
     sDisplay = "none";
     if (sOpt == "assignAcl"){
-    		sDisplay = "inline";
+    	sDisplay = "inline";
         if (elAclScrollPanel!=null) {
           if(document.getElementById(elSelect.form.id+":mmdAclLabel")){
             elAclScrollPanel.style.display = "block";
@@ -260,24 +273,18 @@ function mmdOnActionIconClicked(sAction,sUuid,sPublicationMethod) {
 
       } else if (sAction == "edit") {
         var elEditForm = mmdFindForm("mmdLaunchEditorForm");
-        
-        try {
-	        if (sdisuite.smartEditorUpdate.length > 0) { 
-		        if ((sPublicationMethod != null) && (sPublicationMethod == "seditor")) {
-		          elEditForm = null;
-		          var elSdiLaunch = document.getElementById("frm-sdisuite-launch-editor");
-		          if (elSdiLaunch != null) {
-		            elSdiLaunch.identifier.value = sUuid;
-								elSdiLaunch.ticket.value = sdisuite.tkn;
-								elSdiLaunch.action = sdisuite.smartEditorUpdate;
-		            elSdiLaunch.submit();
-		          }
-		        }
-	        }
-        } catch(e){
-        	elEditForm = mmdFindForm("mmdLaunchEditorForm");
+        <% if (sdisuiteUpdateUrl.length() > 0) { %>
+        if ((sPublicationMethod != null) && (sPublicationMethod == "seditor")) {
+          elEditForm = null;
+          var elSdiLaunch = document.getElementById("frm-sdisuite-launch-editor");
+          if (elSdiLaunch != null) {
+            elSdiLaunch.identifier.value = sUuid;
+            elSdiLaunch.samlticket.value = "<%=sdisuiteSamlToken%>";
+            elSdiLaunch.action = "<%=sdisuiteUpdateUrl%>";
+            elSdiLaunch.submit();
+          }
         }
-        
+        <% } %>
         if (elEditForm != null) {
           var elLaunch = document.getElementById(elEditForm.id+":mmdLaunch");
           var elUuid = document.getElementById(elEditForm.id+":mmdUuid");
@@ -347,6 +354,8 @@ function mmdOnActionIconClicked(sAction,sUuid,sPublicationMethod) {
             elLaunch.click();
           }
         }
+      } else if (sAction == "downloadCsv") {
+          downloadCsv(sUuid);
       }
     }
   }
@@ -437,6 +446,47 @@ function mmdClearAclSelection(){
 			groups[idx].checked = false;
 	}
 }
+
+function downloadCsv(uuids) {
+    //alert("in downloadCsv, uuids: "+uuids);
+    // eliminate any uids that are not dataGov by looking for dataGov image for each uid
+    var ids = uuids.split(",");
+    var filteredIdStr = "";
+    for (i=0; i<ids.length; i++) {
+        len = searchCsvButtons(ids[i]);
+        //alert("id "+ids[i]+" returned "+len);
+        if (len>0) {
+            if (filteredIdStr.length>0)
+                filteredIdStr += ",";
+            filteredIdStr += ids[i];
+        }
+    }
+    if (filteredIdStr.length==0) {
+        alert("There were no Data.Gov records selected.");
+        return;
+    }
+    var loc = window.location;
+    var to = loc.protocol+"//"+loc.host+ "<%=request.getContextPath()%>" +
+        "/DownloadMetadataAsCsv.csv?uuids="+filteredIdStr;
+    //alert("to: "+to);
+    window.location.href = to;
+}
+
+function searchCsvButtons (uuid) {
+  var list = [];
+  var nodes = document.getElementsByTagName("IMG");
+  // iterate over every img node
+  for(var x = 0; x < nodes.length; x++){
+      // only nodes with the class "progressIndicator":
+      if(nodes[x].className == "innoDataGovUuid_"+uuid){
+          // add to array:
+          list.push(nodes[x]);
+      }
+  }
+  return list.length;
+}
+
+
 </script>
 
 </f:verbatim>
@@ -486,19 +536,6 @@ function mmdClearAclSelection(){
       itemValue=""
       itemLabel="#{gptMsg['catalog.publication.manageMetadata.owner.any']}"/>
     <f:selectItems value="#{ManageMetadataController.selectablePublishers.items}"/>
-  </h:selectOneMenu>
-  
-  <% // collection %>
-  <h:outputLabel for="mmdCollection"
-    rendered="#{ManageMetadataController.useCollections}"
-    value="#{gptMsg['catalog.publication.manageMetadata.label.collection']}"/>
-  <h:selectOneMenu id="mmdCollection"
-    rendered="#{ManageMetadataController.useCollections}"
-    value="#{ManageMetadataController.queryCriteria.collectionUuid}">
-    <f:selectItem
-      itemValue=""
-      itemLabel="#{gptMsg['catalog.publication.manageMetadata.collection.any']}"/>
-    <f:selectItems value="#{ManageMetadataController.selectableCollections.items}"/>
   </h:selectOneMenu>
 
   <% // approval status  and publication method%>
@@ -620,8 +657,7 @@ function mmdClearAclSelection(){
       itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.delete']}"/>
     <f:selectItem
        itemValue="assignAcl"
-       itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.acl']}" 
-       itemDisabled="#{ManageMetadataController.metadataAccessPolicyConfig.policyUnrestricted}"/>
+       itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.acl']}" itemDisabled="#{ManageMetadataController.metadataAccessPolicyConfig.policyUnrestricted}"/>
   </h:selectOneMenu>
 
   <% // action to perform - administrator %>
@@ -653,17 +689,11 @@ function mmdClearAclSelection(){
       itemValue="delete"
       itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.delete']}"/>
     <f:selectItem
-      itemValue="shareWith"
-      itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.shareWith']}" 
-      itemDisabled="#{not ManageMetadataController.useCollections}"/>
-    <f:selectItem
-      itemValue="dontShareWith"
-      itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.dontShareWith']}" 
-      itemDisabled="#{not ManageMetadataController.useCollections}"/>
-    <f:selectItem
       itemValue="assignAcl"
-      itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.acl']}" 
-      itemDisabled="#{ManageMetadataController.metadataAccessPolicyConfig.policyUnrestricted}"/>
+      itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.acl']}" itemDisabled="#{ManageMetadataController.metadataAccessPolicyConfig.policyUnrestricted}"/>
+    <f:selectItem
+       itemValue="downloadCsv"
+       itemLabel="#{gptMsg['catalog.publication.manageMetadata.action.downloadCsv']}"/>
   </h:selectOneMenu>
 
   <% // transfer to owner %>
@@ -677,20 +707,6 @@ function mmdClearAclSelection(){
       itemLabel="#{gptMsg['catalog.publication.manageMetadata.prompt.transfer']}"/>
     <f:selectItems value="#{ManageMetadataController.selectablePublishers.items}"/>
   </h:selectOneMenu>
-    
-  <% // collection sharing (isPartOf)  %>
-  <h:panelGroup id="mmdSharingPanel"
-    rendered="#{ManageMetadataController.useCollections}">
-	  <h:outputLabel id="mmdSharingLabel" for="mmdSharingCollectionUuid"
-	    value="#{gptMsg['catalog.publication.manageMetadata.sharing.collection.label']}"/>
-	  <h:selectOneMenu id="mmdSharingCollectionUuid"
-	    value="#{ManageMetadataController.actionCriteria.sharingCollectionUuid}">
-	    <f:selectItem 
-	      itemValue=""
-	      itemLabel="#{gptMsg['catalog.publication.manageMetadata.sharing.collection.prompt']}"/>
-	    <f:selectItems value="#{ManageMetadataController.selectableCollections.items}"/>
-	  </h:selectOneMenu>
-  </h:panelGroup>
 
   <% // assign access level  %>
   <h:panelGroup>
@@ -744,13 +760,12 @@ function mmdClearAclSelection(){
 
 </h:panelGrid>
 
-<% // apply to all %>
 <h:panelGrid
   columns="2"
   summary="#{gptMsg['catalog.general.designOnly']}"
   styleClass="formTable"
   columnClasses="formLabelColumn,formInputColumn"
-  rendered="#{PageContext.roleMap['gptAdministrator'] and ManageMetadataController.allowApplyToAll and not ManageMetadataController.queryCriteria.isEmpty and ManageMetadataController.queryResult.hasRecords}">
+  rendered="#{PageContext.roleMap['gptAdministrator'] and not ManageMetadataController.queryCriteria.isEmpty and ManageMetadataController.queryResult.hasRecords}">
     <h:outputLabel for="mmdApplyToAll" value="#{gptMsg['catalog.publication.manageMetadata.button.applyToAll']}"/>
     <h:selectBooleanCheckbox id="mmdApplyToAll" value="false"/>
 </h:panelGrid>
@@ -785,6 +800,7 @@ function mmdClearAclSelection(){
     <h:selectBooleanCheckbox
       id="mmdCheckRecord"
       value="false"
+      title="#{record.uuid}"
       onclick="mmdOnUuidChecked(this,'!#{record.uuid}!');">
       <f:attribute name="uuid" value="1"/>
     </h:selectBooleanCheckbox>
@@ -806,6 +822,16 @@ function mmdClearAclSelection(){
       title="#{gptMsg['catalog.harvest.manage.action.history.tip']}"
       url="/catalog/images/mr_history.gif"
       onclick="mmdOnActionIconClicked('history','#{record.uuid}');"/>
+    <h:graphicImage rendered="#{record.schemaKey ne 'dataGov'}"
+      alt="#{gptMsg['catalog.publication.manageMetadata.action.downloadCsv.tip']}"
+      title="#{gptMsg['catalog.publication.manageMetadata.action.downloadCsv.tip']}"
+      url="/catalog/images/mmd_csv_inactive.gif"/>
+    <h:graphicImage rendered="#{record.schemaKey eq 'dataGov'}"
+      alt="#{gptMsg['catalog.publication.manageMetadata.action.downloadCsv.tip']}"
+      title="#{gptMsg['catalog.publication.manageMetadata.action.downloadCsv.tip']}"
+      url="/catalog/images/mmd_csv.gif"
+      onclick="mmdOnActionIconClicked('downloadCsv','#{record.uuid}');"
+      styleClass="innoDataGovUuid_#{record.uuid}"/>
     <h:graphicImage rendered="#{record.protocol eq null}"
       alt="#{gptMsg['catalog.publication.manageMetadata.action.download.tip']}"
       title="#{gptMsg['catalog.publication.manageMetadata.action.download.tip']}"
@@ -848,7 +874,7 @@ function mmdClearAclSelection(){
       title="#{gptMsg['catalog.harvest.manage.action.harvest.cancel.tip']}"
       url="/catalog/images/mr_fullharvest_cancel.gif"
       onclick="mmdOnActionIconClicked('cancel','#{record.uuid}');"/>
-    <h:graphicImage rendered="#{record.protocol ne null and record.protocol.kind!='AGP2AGP'}"
+    <h:graphicImage rendered="#{record.protocol ne null}"
       alt="#{gptMsg['catalog.publication.manageMetadata.action.showharvested.tip']}"
       title="#{gptMsg['catalog.publication.manageMetadata.action.showharvested.tip']}"
       url="/catalog/images/mmd_showharvested.gif"
@@ -872,14 +898,20 @@ function mmdClearAclSelection(){
         <f:attribute name="defaultDirection" value="asc"/>
       </h:commandLink>
     </f:facet>
-    <h:outputLabel for="mmdCheckRecord" value="#{record.title}"/>
+    <h:outputText value="#{record.title}"/>
   </h:column>
 
   <% // document owner %>
   <h:column>
     <f:facet name="header">
-      <h:outputText
-        value="#{gptMsg['catalog.publication.manageMetadata.header.owner']}" />
+      <h:commandLink
+        styleClass="#{ManageMetadataController.queryCriteria.sortOption.styleMap['owner']}"
+        value="#{gptMsg['catalog.publication.manageMetadata.header.owner']}"
+        actionListener="#{ManageMetadataController.processAction}">
+        <f:attribute name="command" value="sort"/>
+        <f:attribute name="column" value="owner"/>
+        <f:attribute name="defaultDirection" value="asc"/>
+      </h:commandLink>
     </f:facet>
     <h:outputText value="#{record.ownerName}"/>
   </h:column>
@@ -896,12 +928,7 @@ function mmdClearAclSelection(){
         <f:attribute name="defaultDirection" value="asc"/>
       </h:commandLink>
     </f:facet>
-    <h:outputText value="#{record.approvalStatusMsg}"
-      rendered="#{empty record.collectionMembership}"/>
-    <h:outputText value="#{record.approvalStatusMsg}"
-      title="#{record.collectionMembership}"
-      style="cursor:help;"
-      rendered="#{not empty record.collectionMembership}"/>
+    <h:outputText value="#{record.approvalStatusMsg}"/>
   </h:column>
 
   <% // publication method %>
@@ -1070,10 +1097,26 @@ $(document).ready(function(){
 <f:verbatim>
 	<form id="frm-sdisuite-launch-editor" name="frm-sdisuite-launch-editor" style="display:none"
 	  action="none.html" method="post" target="_blank">
-	  <input type="hidden" id="ticket" name="ticket" value=""/>
+	  <input type="hidden" id="samlticket" name="samlticket" value=""/>
 	  <input type="hidden" id="identifier" name="identifier" value=""/>
 	  <input type="hidden" id="base64" name="base64" value="true"/>
 	  <input type="hidden" id="request" name="request" value="update"/>
 	</form>
+    
+        <script>
+var setSelectedUuids = function(){
+    var uuids = '<% out.print(session.getAttribute("mmdUuids")); %>';
+    var checkbox = document.getElementsByTagName("input");
+    for(var i=0;i<checkbox.length;i++){
+        if(checkbox[i].getAttribute("type").toLowerCase()=="checkbox"){
+            if(checkbox[i].getAttribute("title") && uuids.indexOf(checkbox[i].getAttribute("title").toString())!=-1){
+                checkbox[i].checked = true;
+                mmdOnUuidChecked(checkbox[i],'!'+checkbox[i].getAttribute("title")+'!');
+            }
+            checkbox[i].setAttribute("title", "");
+        }
+    }
+}();
+</script>
 </f:verbatim>
 

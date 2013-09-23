@@ -20,5 +20,5 @@
 <% // initialize the page %>
 <gpt:page id="catalog.content.disclaimer"/>
 <tiles:insert definition=".gptLayout" flush="false" >
-  <tiles:put name="body" value="/catalog/content/disclaimerBody.jsp"/>
+  <tiles:put name="body" value="/metadata_CWH/catalog/content/disclaimerBody.jsp"/>
 </tiles:insert>

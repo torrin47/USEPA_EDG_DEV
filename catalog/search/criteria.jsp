@@ -42,6 +42,13 @@
 <% // date picker support %>
 <gpt:DatePickerConfig/>
 
+<gpt:jscriptVariable
+  id="innoRoleAnonymous"
+  quoted="true"
+  value="#{PageContext.roleMap['anonymous']}"
+  variableName="innoRoleAnonymous"/>
+
+
 <% // scripting functions %>
 <f:verbatim>
 
@@ -400,6 +407,13 @@
           || typeof(csExteriorRepositories[i].uuid) == 'undefined') {
           continue;
         }
+        // JSS 20110909 Only allow EPA GePlatform if logged in
+        //console.debug("innoRoleAnonymous "+innoRoleAnonymous);
+        //console.debug("csExteriorRepositories[i].name "+csExteriorRepositories[i].name);
+        if ((csExteriorRepositories[i].name=="EPA GeoPlatform") && (innoRoleAnonymous=="true")) {
+            //console.debug("skipping i "+i);
+            continue;
+        }
         obj.name = csExteriorRepositories[i].name;
         obj.uuid = csExteriorRepositories[i].uuid;
         rows.unshift(obj);
@@ -424,7 +438,7 @@
     }
     
     // Gets the harvest sites via ajax
-    var triedAddSitesFromError  = false; 
+    var triedAddSitesFromError  = false;
     function scGetHarvestSites() {
       var url = contextPath + '/rest/repositories?protocol=csw';
       var nTimeout = parseInt(_csDistributedSearchTimeoutMillisecs);
@@ -438,7 +452,22 @@
       dojo.xhrGet ({
       
         url: url,
-        load: scGetHarvesterSitesHandler,
+    
+        load: function (data) {
+          
+          _scSearchSites = dojo.eval("[{" + data + "}]");
+          if(typeof(_scSearchSites.length) != 'undefined'
+            && _scSearchSites.length == 1) {
+            _scSearchSites = _scSearchSites[0];
+            
+          }
+          if(typeof(_scSearchSites.rows) == 'undefined') {
+            _scSearchSites.rows = new Array();
+          }
+          scAddLocalSites();
+          
+        },
+        
         timeout: nTimeout,
         preventCache: true,
         error: function (data) {
@@ -559,9 +588,7 @@
         
         elTdInp.appendChild(el);
         elTr.appendChild(elTdInp);
-        elTdName.appendChild(
-        		dojo.create('label', { "for": siteId, innerHTML: siteName}))
-        		//document.createTextNode(siteName));
+        elTdName.appendChild(document.createTextNode(siteName));
         elTr.appendChild(elTdName);
         elTbody.appendChild(elTr);
         elTr = document.createElement("tr");
@@ -576,12 +603,10 @@
       // TM: Changing to populate other div
       //var elDiv = document.getElementById('divHarvestingSitesBodyList');
       var elDiv = document.getElementById('cntDistributedSearchesConfig');
-      if(typeof(elDiv) != 'undefined' && elDiv != null) {
-        elTable.style.verticalAlign = "top";
-	      elTable.style.overflow = "auto";
-	//      elTable.className = "noneSelectedResultRow ";
-	      elDiv.appendChild(elTable);
-      }
+      elTable.style.verticalAlign = "top";
+      elTable.style.overflow = "auto";
+//      elTable.className = "noneSelectedResultRow ";
+      elDiv.appendChild(elTable);
    
     }
 
@@ -912,7 +937,7 @@
   /* Does an ajax search and injects the results into the page
    */
   var _xhrSearch;
-  var _lastSearch = "";
+  var _lastSearch;
   function scDoAjaxSearch(clear, searchUrl) {
   
     if(_xhrSearch) {
@@ -1034,6 +1059,10 @@
         aoiMaxX = parseInt(tmpAoiMaxX);
         aoiMaxY = parseInt(tmpAoiMaxY);
         aoiWkid = parseInt(tmpAoiWkid);
+
+        innoFixRestIntraLinks();
+        innoGetCsvAnchors();
+        innoHookupAnchors();
        
       }),
       preventCache: true,
@@ -1107,6 +1136,7 @@
   Distributed search is now done
    **/
   function distributedSearchDone() {
+    //frm.contentWindow.innoFixRestIntraLinks();
     dojo.query(".loadingImages").style("visibility", "hidden");
     //dojo.query(".loadingImages").style("display", "block");
   }
@@ -1145,7 +1175,7 @@
       ">";
     htmlCatalogs += "</span>";
     htmlCatalogs += "<img height=\"20\" style=\"visibility:hidden; \"  "
-      + "name=\"distrLoadingImg\" alt=\"\" src=\""
+      + "name=\"distrLoadingImg\" src=\""
       + contextPath + "/catalog/images/loading.gif\" class=\"loadingImages\" "
       + "id=\"distrLoadImg" + srNormalizeId(uuid) + "\"/>";    
     htmlCatalogs += "</div></td></tr>";
@@ -1179,12 +1209,9 @@
   function scInitDistrPane() {
   
     if(GptUtils.valChkBool(_csAllowDistributedSearch) == false) {
-    	if(dojo.byId("djtCntDistributedSearches") != null) {
-        dojo.style("djtCntDistributedSearches",
-           {visibility:"hidden", display:"none"});
-      }
-    	if(dojo.byId("djtCntDistributedSearchesImg") != null) {
-        dojo.style("djtCntDistributedSearchesImg",
+      dojo.style("djtCntDistributedSearches",
+          {visibility:"hidden", display:"none"});
+      dojo.style("djtCntDistributedSearchesImg",
           {visibility:"hidden", display:"none"});
     	}
     	if(dojo.byId("frmSearchCriteria:_pngCtypeRemote") != null) {
@@ -1470,7 +1497,7 @@
                value="#{SearchController.searchCriteria.searchFilterKeyword.searchText}"
                maxlength="4000" styleClass="searchBox" />
   <h:commandButton id="btnDoSearch" rendered="true"
-                   onclick="javascript:scSetPageTo(1); scExecuteDistributedSearch(); return false;"
+                   onclick="javascript:scSetPageTo(1); innoRemoveCsvLinks(); scExecuteDistributedSearch(); return false;"
                    value="#{gptMsg['catalog.search.search.btnSearch']}"
                    action="#{SearchController.getNavigationOutcome}"
                    actionListener="#{SearchController.processAction}">
@@ -1484,9 +1511,6 @@
     url="/catalog/images/loading.gif" alt="" 
     width="30px">
   </h:graphicImage>
-   <f:verbatim>
-   	<div id="hints"></div>
-   </f:verbatim>
 </h:panelGrid> 
 
 <h:panelGroup id="dockDistributedSearch" rendered="#{SearchController.searchConfig.allowExternalSearch == true}">
@@ -1496,7 +1520,7 @@
         <table width="100%">
           <tr>
             <td/>
-            <td valign="top"><img id="djtCntDistributedSearchesImg" alt="" src="/geoportal/catalog/images/section_closed.gif"/></td>
+            <td valign="top"><img id="djtCntDistributedSearchesImg" alt="" src="/metadata_CWH/catalog/images/section_closed.gif"/></td>
             <td>
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr><td id="djtCntDistributedSearchesTitle" class="sectionCaption"/></tr>
@@ -1581,7 +1605,6 @@
   <% // map %>
   <h:panelGrid id="pnlMap">
     <h:panelGroup id="mapToolbar" styleClass="mapToolbar">
-      <h:outputLabel for="mapInput-locate" value="#{gptMsg['catalog.search.search.lblLocator']}"/>
       <h:inputText id="mapInput-locate" styleClass="locatorInput"
                    maxlength="1024" onkeypress="return scMap.onLocatorKeyPress(event);"/>
       <h:graphicImage id="mapButton-locate" url="/catalog/images/btn-locate-off.gif"
@@ -1591,6 +1614,7 @@
     <f:verbatim>
       <div id="locatorCandidates" class="locatorCandidates"></div>
          <div id="interactiveMap" 
+             border: 1px solid #000000;
              dojotype="dijit.layout.ContentPane"
              style="width:360px; height:220px; cursor:pointer; border: 1px solid #000000;">
         </div>
@@ -1627,7 +1651,7 @@
 <% // content type %>
 <h:panelGroup id="_pngCtypeLocal">
   <h:outputText escape="false" value="<h3>"/>
-  <h:outputLabel for="scSelContent" id="scLblContent" value="#{gptMsg['catalog.search.filterContentTypes.title']}" />
+  <h:outputText id="scLblContent" value="#{gptMsg['catalog.search.filterContentTypes.title']}" />
   <h:outputText escape="false" value="</h3>"/>
   <h:panelGrid id="scPnlContent">
     <h:selectOneMenu id="scSelContent"
@@ -1664,7 +1688,7 @@
 
 <h:panelGroup id="_pngCtypeRemote">
   <h:outputText escape="false" value="<h3>"/>
-  <h:outputLabel for="scSelContentR" id="scLblContentR" value="#{gptMsg['catalog.search.filterContentTypes.title']}" />
+  <h:outputText id="scLblContentR" value="#{gptMsg['catalog.search.filterContentTypes.title']}" />
   <h:outputText escape="false" value="</h3>"/>
   <h:panelGrid id="scPnlContentR">
     <h:selectOneMenu id="scSelContentR"
@@ -1776,7 +1800,7 @@
 <% // sort option %>
 <h:panelGroup id="_pngSortSection">
   <h:outputText escape="false" value="<h3>"/>
-  <h:outputLabel for="scSelSort" id="scLblSort" value="#{gptMsg['catalog.search.filterSort.labelSort']}" />
+  <h:outputText id="scLblSort" value="#{gptMsg['catalog.search.filterSort.labelSort']}" />
   <h:outputText escape="false" value="</h3>"/>
   <h:panelGrid id="scPnlSort">
     <h:selectOneMenu id="scSelSort"

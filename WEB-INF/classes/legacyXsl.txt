@@ -1,0 +1,11 @@
+# This file defines which .xsl parameters of InnoRestServlet should use
+# the .net web service legacyXsl.ashx for transformation.
+fgdc
+fgdc
+fgdc_classic
+fgdc_esri
+fgdc_faq
+fgdc_geography_network
+fgdc_plus
+iso
+iso_geography_network

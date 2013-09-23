@@ -1,0 +1,999 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+             
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>Geoportal Extension Catalog Service</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+      
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>Geoportal Extension Catalog Service</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="gpt_csw_catalog"></a>
+<h2>Geoportal Extension Catalog Service</h2>
+
+<p>If the Geoportal extension was a car, the Geoportal extension Catalog Service would be its engine, controlling other components, managing transactions, and providing the central interface for the discovery, publishing, and validation of metadata. 
+
+<br></br>Starting at version 9.3, the Geoportal included an implementation of the Open Geospatial Consortium (OGC) <a href="http://www.opengeospatial.org/standards/cat">Catalog Service for the Web (CS-W)</a> 2.0.2 interface specification. 
+
+<br><br><i>The <b>URL</b> for the GDG's CS-W interface is https://geogateway.epa.gov/geoportal/csw202/discovery?request=GetCapabilities&service=CSW&version=2.0.2</i>
+
+<br></br>The link to this service is found in the gpt.xml file (&lt;TOMCAT&gt;\webapps\geoportal\WEB-INF\classes\gpt\config folder), listed in the "&lt;search ...    cswServletUrl" parameter.  The Geoportal extension CS-W service makes possible support for arbitrary metadata schemas without complicating the search component of Geoportal. When a metadata document is published to the Geoportal, the original metadata is retained unchanged and is used when editing the metadata in the online form or when displaying the full metadata as part of search results. At the same time, the Geoportal CS-W service is able to extract searchable elements into uniform structure, standardize domain values across metadata standards, determine the topic category codes or content types of the metadata document, select key content for connecting to online resources, and assign a unique identifier to the record.<br></br>
+<br></br>The <a href="#csw_details"> capabilities of the Geoportal extension CS-W implementation</a>  will be described and <a href="#csw_samples"> sample requests and responses</a> included in the sections below. See <a href="#wsdl">Geoportal extension WSDL</a> for information about the web service definition files.</p>
+<a name="csw_details"></a>
+<h3>Details of the CS-W Interface </h3>
+
+<ol>
+<li>
+<b>SUPPORTED OPERATIONS</b>
+<br>
+<b></b>
+</br>The Geoportal extension CS-W implementation supports the mandatory CS-W requests as well as the optional GetRecordsById and Transaction. The Transaction requests publish or update entire documents only. The Transaction delete request is based on file identifier alone. <br></br>
+<br></br>The GetDomain and Harvest operations are not supported at this time. <b>Note: </b>In the table below, the "Obligation" column indicates if the operation is mandatory or optional.  Mandatory operations are required for the service to be minimally compliant with this CS-W specification. Optional operations are not required by the CS-W specification.<br>
+<b></b>
+</br>
+<br>
+<b></b>
+</br>Table 1- Supported CS-W Operations<br>
+<b></b>
+</br>
+<table>
+<tr>
+<th>Operation	</th>
+<th>Obligation</th>
+<th>Supported</th>
+<th>Binding</th>
+</tr>
+<tr>
+<td>GetCapabilities</td>
+<td>mandatory</td>
+<td>yes</td>
+<td>KVP+POST+SOAP</td>
+</tr>
+<tr>
+<td>DescribeRecord</td>
+<td>mandatory</td>
+<td>yes</td>
+<td>KVP+POST+SOAP</td>
+</tr>
+<tr>
+<td>GetRecords</td>
+<td>mandatory</td>
+<td>yes</td>
+<td>KVP+POST+SOAP</td>
+</tr>
+<tr>
+<td>GetRecordById</td>
+<td>optional</td>
+<td>yes</td>
+<td>KVP+POST+SOAP</td>
+</tr>
+<tr>
+<td>GetDomain</td>
+<td>optional</td>
+<td>No</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Harvest</td>
+<td>optional</td>
+<td>No</td>
+<td>N/A</td>
+<tr>
+<td>Transaction</td>
+<td>optional</td>
+<td>yes</td>
+<td>POST+SOAP</td>
+</tr>
+</tr>
+</table>For each of the supported operations, the Geoportal extension CS-W implementation supports KVP, POST, and SOAP implementations</li>
+<li>
+<b>NAMESPACES</b>
+<br></br>The following table lists the namespace prefix declarations that are used throughout this document and the associated specification and version.<br></br>
+<br></br>Table 2 - Namespace Prefix Declarations<br></br>
+<table>
+<tr>
+<th>Prefix</th>
+<th>Namespace URI</th>
+<th>Specification</th>
+</tr>
+<tr>
+<td>csw</td>
+<td>http://www.opengis.net/cat/csw/2.0.2</td>
+<td>OGC Catalogue Services 2.0.2, Corrigendum 2 Release, OGC 07-006r1</td>
+</tr>
+<tr>
+<td>ows</td>
+<td>http://www.opengis.net/ows</td>
+<td>OGC Common 1.0.0</td>
+</tr>
+<tr>
+<td>ogc</td>
+<td>http://www.opengis.net/ogc	</td>
+<td>OGC Filter 1.1.0</td>
+</tr>
+<tr>
+<td>gml</td>
+<td>http://www.opengis.net/gml</td>
+<td>GML 3.0.0</td>
+</tr>
+<tr>
+<td>dc</td>
+<td>http://purl.org/dc/elements/1.1/</td>
+<td>Dublin Core</td>
+</tr>
+<tr>
+<td>dct</td>
+<td>http://purl.org/dc/terms</td>
+<td>Dublin Core terms</td>
+</tr>
+<tr>
+<td>SOAP-ENV</td>
+<td>http://schemas.xmlsoap.org/soap/envelope</td>
+<td>SOAP Version 1.1</td>
+</tr>
+</table>
+</li>
+<li>
+<b>CORE QUERYABLES</b>
+<br></br>The Geoportal extension CS-W implementation does not define any additional queryable properties beyond the CS-W core queryables. The Geoportal extension information model is backed by XML documents and a spatial database. Its XML documents contain FGDC, ISO 19139, Dublin Core, or other XML elements and attributes. Below is a table, mapping OGC Catalog Core Queryables to items in the Geoportal extension information model.<br></br>
+<br></br>Table 3 - Core Queryable Description and Mapping<table>
+<tr>
+<th>Name</th>
+<th>Aliases</th>
+<th>Definition</th>
+<th>Data Type</th>
+<th>Allowed OGC Property Filters</th>
+<th>Mapping to Information Model</th>
+</tr>
+<tr>
+<td>dc:identifier</td>
+<td>fileIdentifier, fid, id, identifier, fileID</td>
+<td>An unambiguous reference to the resource within a given context.</td>
+<td>string</td>
+<td>All *</td>
+<td>ISO 19139: /gmd:MD_Metadata/gmd:fileIdentifier/gco:CharacterString<br></br>
+<br></br>Dublin Core:/rdf:RDF/rdf:Description/dc:identifier<br></br>
+<br></br>FGDC:System assigned identifier as FGDC does not include a provision for this.</td>
+<br></br>
+<br></br>
+</tr>
+<tr>
+<td>dct:modified	</td>
+<td>modified, dc:date, date</td>
+<td>Date on which the resource was last changed.</td>
+<td>Date formatted string (yyyy-mm-dd)</td>
+<td>All * are allowed, except for ogc:PropertyIsLike</td>
+<td>Stored in database.  Read from file system information</td>
+</tr>
+<tr>
+<td>ows:BoundingBox</td>
+<td>geometry, envelope</td>
+<td>A bounding box for identifying a geographic area of interest.	</td>
+<td>gml:Envelope, gml:Point	</td>
+<td>Set of spatial operators (see section below on spatial queries)</td>
+<td>Examples are for "West", but use simliar syntax for East, North, and South:<ul>
+<li>ISO 19139:<br></br>/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/gmd:westBoundLongitude/gco:Decimal<br></br>
+</li>
+<li>Dublin Core, two options (east = UpperCorner, north = UpperCorner, south = LowerCorner):<br></br>
+<ul>
+<li>/rdf:RDF/rdf:Description/ows:WGS84BoundingBox/westbc</li>
+<li>/rdf:RDF/rdf:Description/ows:WGS84BoundingBox/ows:LowerCorner</li>
+</ul>
+</li>
+<li>FGDC:<br></br>west: /metadata/idinfo/spdom/bounding/westbc</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>anyText</td>
+<td>csw:anyText</td>
+<td>This queryable represents the catalog entry as a whole.</td>
+<td>string</td>
+<td>ogc:PropertyIsLike</td>
+<td>Those elements that have been marked as having one of the following meanings: title, abstract, keywords, or body. Refer to the "How Lucene Indexing Works" section for the default settings for these meanings and how to modify this.</td>
+</tr>
+<tr>
+<td>dc:title</td>
+<td>title</td>
+<td>A name given to the resource</td>
+<td>string</td>
+<td>All *</td>
+<td>ISO 19139:<br></br>/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString<br></br>
+<br></br>Dublin Core:<br></br>/rdf:RDF/rdf:Description/dc:title<br></br>
+<br></br>FGDC: /metadata/idinfo/citation/citeinfo/title</td>
+</tr>
+<tr>
+<td>dc:abstract</td>
+<td>abstract</td>
+<td>Overview description of the resource</td>
+<td>String</td>
+<td>All *</td>
+<td>ISO 19139:<br></br>/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString<br></br>
+<br></br>Dublin Core:<br></br>/rdf:RDF/rdf:Description/dc:description<br></br>
+<br></br>FGDC:<br></br>/metadata/idinfo/descript/abstract</td>
+</tr>
+<tr>
+<td>dc:subject</td>
+<td>subject</td>
+<td>The topic of the content of the resource. Controlled-list</td>
+<td>String</td>
+<td>ogc:PropertyIsEqualTo</td>
+<td>Accepted values are based on the ISO 19115 topic category codes:<br></br>
+<ul>
+<li>farming</li>
+<li>biota</li>
+<li>boundaries</li>
+<li>climatologyMeteorologyAtmosphere</li>
+<li>economy</li>
+<li>elevation</li>
+<li>environment</li>
+<li>geoscientificInformation</li>
+<li>health</li>
+<li>imageryBaseMapsEarthCover</li>
+<li>intelligenceMilitary</li>
+<li>inlandWaters</li>
+<li>location</li>
+<li>oceans</li>
+<li>planningCadastre</li>
+<li>society</li>
+<li>structure</li>
+<li>transportation</li>
+<li>utilitiesCommunication</li>
+</ul>
+<br></br>ISO 19139:/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:topicCategory/gmd:MD_TopicCategoryCode<br></br>
+<br></br>Dublin Core:<br></br>/rdf:RDF/rdf:Description/dc:subject<br></br>
+<br></br>FGDC:<br></br>/metadata/idinfo/keywords/theme[1]/themekey<br></br>
+<br></br>
+</td>
+</tr>
+<tr>
+<td>dc:type</td>
+<td>type, dc:format, format</td>
+<td>The physical or digital manifestation of the resource.</td>
+<td>String</td>
+<td>All * are allowed, but only  "ogc:PropertyIsEqualTo" makes logical sense.</td>
+<td>Accepted values are:<ul>
+<li>liveData</li>
+<li>downloadableData</li>
+<li>offlineData</li>
+<li>staticMapImage</li>
+<li>document</li>
+<li>application</li>
+<li>geographicService</li>
+<li>clearinghouse</li>
+<li>mapFiles</li>
+<li>geographicActivities</li>
+</ul>
+<br></br>ISO 19139: <br></br>determined by choice between ISO19115 or ISO19119 content standards.<br></br>
+<br></br>Dublin Core:<br></br>/rdf:RDF/rdf:Description/dc:type<br></br>
+<br></br>FGDC:<br></br> /metadata/distinfo/resdesc</td>
+</tr>
+</table>
+<b>NOTE: *</b> "All" implies all OGC comparison operators:<ul>
+<li>ogc:PropertyIsEqualTo</li>
+<li>ogc:PropertyIsNotEqualTo</li>
+<li>ogc:PropertyIsLessThan</li>
+<li>ogc:PropertyIsGreaterThan</li>
+<li>ogc:PropertyIsLessThanOrEqualTo</li>
+<li>ogc:PropertyIsGreaterThanOrEqualTo</li>
+<li>ogc:PropertyIsLike</li>
+</ul>
+</li>
+<li>
+<b>SPATIAL QUERIES</b>
+<br>
+<b></b>
+</br>Envelope queries are encoded using OGC Filter spatial predicates. The Geoportal extension CS-W API doesn't support every spatial predicate available in the Filter specification.<br></br>
+<br></br>Table 4 - Supported Spatial Predicates<br></br>
+<table>
+<tr>
+<th>OGC Filter Spatial Predicate</th>
+<th>Geoportal extension CS-W Spatial Predicate</th>
+</tr>
+<tr>
+<td>ogc:BBOX</td>
+<td>Overlaps</td>
+</tr>
+<tr>
+<td>ogc:Intersects</td>
+<td>Overlaps</td>
+</tr>
+<tr>
+<td>ogc:Within</td>
+<td>Within</td>
+</tr>
+</table>
+<ul>
+<li>
+<b>overlaps</b> - finds metadata documents in which part or all of the metadata document's envelope falls within the specified search box. Anything the search box touches is found.</li>
+<li>
+<b>within</b> - finds metadata documents where the document's envelope falls entirely within the specified search box. The document's spatial envelope can touch the search box boundary.</li>
+<li>The geometry operands supported for spatial queries are:<ol>
+<li>gml:Envelope</li>
+<li>gml:Point</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<b>COMPARISON OPERATORS </b>
+<br>
+<b></b>
+</br>Comparison operators are included in a csw:GetRecord request:<ul>
+<li>Between</li>
+<li>EqualTo</li>
+<li>GreaterThan</li>
+<li>GreaterThanEqualTo</li>
+<li>LessThan</li>
+<li>LessthanEqualTo</li>
+<li>Like</li>
+<li>NotEqualTo</li>
+<li>NullCheck</li>
+</ul>
+</li>
+<li>
+<b>PARAMETERS</b>
+<br></br>The following table outlines the parameters for each supported operation.<br></br>
+<br></br>Table 5- Supported Parameters<table>
+<tr>
+<th>Operation</th>
+<th>Parameter</th>
+<th>Accepted Values</th>
+</tr>
+<tr>
+<td>DescribeRecord</td>
+<td>typeName</td>
+<td>
+<ul>
+<li>csw:Record</li>
+<li>csw:SummaryRecord</li>
+<li>csw:BriefRecord</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>outputFormat	</td>
+<td>
+<ul>
+<li>text/xml</li>
+<li>application/xml</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>GetRecords</td>
+<td>typeNames</td>
+<td>
+<ul>
+<li>csw:Record</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>outputFormat</td>
+<td>
+<ul>
+<li>text/xml</li>
+<li>application/xml</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>outputSchema</td>
+<td>
+<ul>
+<li>http://www.opengis.net/cat/csw/2.0.2</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>resultType</td>
+<td>
+<ul>
+<li>results</li>
+<li>hits</li>
+<li>validate</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>ElementSetName</td>
+<td>
+<ul>
+<li>summary</li>
+<li>brief</li>
+<li>full</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>constraintLanguage</td>
+<td>
+<ul>
+<li>Filter</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>GetRecordById</td>
+<td>ElementSetName</td>
+<td>
+<ul>
+<li>summary</li>
+<li>brief</li>
+<li>full</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>outputFormat</td>
+<td>
+<ul>
+<li>text/xml</li>
+<li>application/xml</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>outputSchema</td>
+<td>
+<ul>
+<li>http://www.opengis.net/cat/csw/2.0.2</li>
+<li>original</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>service</td>
+<td>
+<ul>
+<li>CSW</li>
+<li>http://www.opengis.net/cat/csw/2.0.2</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<br></br>
+</td>
+<td>version</td>
+<td>
+<ul>
+<li>2.0.2</li>
+</ul>
+</td>
+</tr>
+<td>
+<br></br>
+</td>
+<td>PostEncoding</td>
+<td>
+<ul>
+<li>XML</li>
+</ul>
+</td>
+</table>
+</li>
+<li>
+<b>CORE RETURNABLES </b>
+<br>
+<b></b>
+</br>For the csw:Record output schema, the records returned contain a selection of the core returnables, of which the subset is dependent on the element set. <b></b>
+<br>
+<b></b>
+</br>
+<b></b>
+<br>
+<b></b>
+</br>When request=GetRecordById, outputSchema=original, and ElementSetName=full, the Geoportal extension CS-W interface returns the original metadata document as it was published to Geoportal.<b></b>
+<br>
+<b></b>
+</br>
+<b></b>
+<br>
+<b></b>
+</br>Table 6 - Returnable Properties<b></b>
+<table>
+<tr>
+<th>Element Set</th>
+<th>Returnables</th>
+</tr>
+<tr>
+<td>brief</td>
+<td>
+<ul>
+<li>dc:identifier</li>
+<li>dc:title</li>
+<li>dc:type</li>
+<li>ows:Envelope</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>
+<ul>
+<li>dc:identifier</li>
+<li>dc:title</li>
+<li>dc:type</li>
+<li>dc:format</li>
+<li>ows:Envelope</li>
+<li>dc:subject</li>
+<li>dct:modified</li>
+<li>dc:abstract</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>Full</td>
+<td>
+<ul>
+<li>dc:identifier</li>
+<li>dc:title</li>
+<li>dc:type</li>
+<li>ows:Envelope</li>
+<li>dc:subject</li>
+<li>dct:modified</li>
+<li>dc:abstract</li>
+<li>dct:references</li>
+</ul>
+</td>
+</tr>
+</table>
+</li>
+</ol>
+<a name="csw_samples"></a>
+<h3>Sample Requests</h3>
+
+<p>This section includes sample requests.<ol>
+<li>
+<b>GetCapabilities</b>
+<br>
+<b></b>
+</br>Both KVP, POST, and SOAP requests are supported by the Geoportal CS-W service.<br>
+<b></b>
+</br>
+<br>
+<b></b>
+</br>
+<table>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td>?REQUEST=GetCapabilities&amp;SERVICE=CSW&amp;version=2.0.2</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>
+<b></b>
+</br>&lt;csw:GetCapabilities xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" xmlns="http://www.opengis.net/ows"&gt;<br>
+<b></b>
+</br>&lt;/csw:GetCapabilities&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>
+<b></b>
+</br>&lt;SOAP-ENV:Envelope <br>
+<b></b>
+</br>	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"<br>
+<b></b>
+</br>		xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br>
+<b></b>
+</br>		xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br>
+<b></b>
+</br>    xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br>
+<b></b>
+</br>    xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br>
+<b></b>
+</br>    &lt;SOAP-ENV:Body&gt;<br>
+<b></b>
+</br>      &lt;csw:GetCapabilities<br>
+<b></b>
+</br>        xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" <br>
+<b></b>
+</br>        service="CSW" xmlns="http://www.opengis.net/ows"&gt;<br>
+<b></b>
+</br>      &lt;/csw:GetCapabilities&gt;<br>
+<b></b>
+</br>    &lt;/SOAP-ENV:Body&gt;<br>
+<b></b>
+</br>&lt;/SOAP-ENV:Envelope&gt;</td>
+</tr>
+</table>
+</li>
+<br>
+<b></b>
+</br>
+<b></b>
+<li>
+<b>DescribeRecord  </b>
+<br>
+<b></b>
+</br>
+<b></b>
+<table>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> ?REQUEST=DescribeRecord&amp;service=CSW&amp;version=2.0.0 </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:DescribeRecord service="CSW" version="2.0.2" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"&gt;&lt;/csw:DescribeRecord&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>  &lt;SOAP-ENV:Body&gt;<br></br>    &lt;csw:DescribeRecord service="CSW" version="2.0.2"<br></br>      xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"&gt;<br></br>    &lt;/csw:DescribeRecord&gt;<br></br>  &lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+</td>
+</tr>
+</table>
+</li>
+<br>
+<b></b>
+</br>
+<b></b>
+<li>
+<b>GetRecords</b>
+<br>
+<b></b>
+</br>A GetRecords requests requires a constraint language and since the Geoportal CS-W service doesn't support CQL (Common Query Language), only XML Filter with POST style requests are supported. <b></b>
+<table>
+<tr>
+<th colspan="3">AnyText</th>
+</tr>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> N/A </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:And&gt;<br></br>          &lt;ogc:PropertyIsLike wildCard="*" escape="\" singleChar="?"&gt;<br></br>            &lt;ogc:PropertyName&gt;AnyText&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;data&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsLike&gt;<br></br>          &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:type&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;liveData&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>          &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:subject&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;imageryBaseMapsEarthCover&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>          &lt;ogc:BBOX&gt;<br></br>            &lt;ogc:PropertyName&gt;ows:BoundingBox&lt;/ogc:PropertyName&gt; <br></br>            &lt;gml:Envelope&gt;<br></br>              &lt;gml:lowerCorner&gt;-118.3 32.1&lt;/gml:lowerCorner&gt; <br></br>              &lt;gml:upperCorner&gt;-87.1 45.2&lt;/gml:upperCorner&gt; <br></br>            &lt;/gml:Envelope&gt;<br></br>          &lt;/ogc:BBOX&gt;<br></br>        &lt;/ogc:And&gt;<br></br>     &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>
+</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br></br>&lt;SOAP-ENV:Envelope <br></br>	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"<br></br>		xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br></br>		xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>    xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>    xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>    &lt;SOAP-ENV:Body&gt;<br></br>      &lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:And&gt;<br></br>          &lt;ogc:PropertyIsLike wildCard="*" escape="\" singleChar="?"&gt;<br></br>            &lt;ogc:PropertyName&gt;AnyText&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;data&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsLike&gt;<br></br>          &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:type&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;liveData&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>          &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:subject&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;imageryBaseMapsEarthCover&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>          &lt;ogc:BBOX&gt;<br></br>            &lt;ogc:PropertyName&gt;ows:BoundingBox&lt;/ogc:PropertyName&gt; <br></br>            &lt;gml:Envelope&gt;<br></br>              &lt;gml:lowerCorner&gt;-118.3 32.1&lt;/gml:lowerCorner&gt; <br></br>              &lt;gml:upperCorner&gt;-87.1 45.2&lt;/gml:upperCorner&gt; <br></br>            &lt;/gml:Envelope&gt;<br></br>          &lt;/ogc:BBOX&gt;<br></br>        &lt;/ogc:And&gt;<br></br>     &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>&lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope<b>
+<i>&gt;</i>
+</b>
+<br></br>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<th colspan="3">Title</th>
+</tr>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> N/A </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsLike wildCard="*" escape="\" singleChar="?"&gt;<br></br>	  &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;Sample Document&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>
+</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;SOAP-ENV:Envelope <br></br>	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"<br></br>		xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br></br>		xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>    xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>    xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>    &lt;SOAP-ENV:Body&gt;<br></br>      &lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsLike wildCard="*" escape="\" singleChar="?"&gt;<br></br>	  &lt;ogc:PropertyIsEqualTo&gt;<br></br>            &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>            &lt;ogc:Literal&gt;Sample Document&lt;/ogc:Literal&gt; <br></br>          &lt;/ogc:PropertyIsEqualTo&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>&lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<th colspan="3">Subject</th>
+</tr>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> N/A </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsEqualTo&gt;<br></br>           &lt;ogc:PropertyName&gt;dc:subject&lt;/ogc:PropertyName&gt; <br></br>           &lt;ogc:Literal&gt;imageryBaseMapsEarthCover&lt;/ogc:Literal&gt; <br></br>        &lt;/ogc:PropertyIsEqualTo&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>
+</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;SOAP-ENV:Envelope <br></br>	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"<br></br>		xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br></br>		xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>    xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>    xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>    &lt;SOAP-ENV:Body&gt;<br></br>      &lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsEqualTo&gt;<br></br>           &lt;ogc:PropertyName&gt;dc:subject&lt;/ogc:PropertyName&gt; <br></br>           &lt;ogc:Literal&gt;imageryBaseMapsEarthCover&lt;/ogc:Literal&gt; <br></br>        &lt;/ogc:PropertyIsEqualTo&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>&lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<th colspan="3">Modified</th>
+</tr>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> N/A </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsGreaterThan&gt;<br></br>          &lt;ogc:PropertyName&gt;dct:modified&lt;/ogc:PropertyName&gt; <br></br>          &lt;ogc:Literal&gt;2000-01-01&lt;/ogc:Literal&gt; <br></br>        &lt;/ogc:PropertyIsGreaterThan&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt;<br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>
+</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;SOAP-ENV:Envelope 	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"<br></br>		xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br></br>		xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>    xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>    xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>    &lt;SOAP-ENV:Body&gt;<br></br>      &lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:PropertyIsGreaterThan&gt;<br></br>          &lt;ogc:PropertyName&gt;dct:modified&lt;/ogc:PropertyName&gt; <br></br>          &lt;ogc:Literal&gt;2000-01-01&lt;/ogc:Literal&gt; <br></br>        &lt;/ogc:PropertyIsGreaterThan&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords&gt;<br></br>&lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<th colspan="3">Envelope</th>
+</tr>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> N/A </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:BBOX&gt;<br></br>&lt;ogc:PropertyName&gt;ows:BoundingBox&lt;/ogc:PropertyName&gt; <br></br>  &lt;gml:Envelope&gt;<br></br>	  &lt;gml:lowerCorner&gt;-118.3 32.1&lt;/gml:lowerCorner&gt; <br></br>	  &lt;gml:upperCorner&gt;-87.1 45.2&lt;/gml:upperCorner&gt; <br></br>	&lt;/gml:Envelope&gt;<br></br>        &lt;/ogc:BBOX&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>&lt;/csw:GetRecords<br></br>
+</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br></br>&lt;SOAP-ENV:Envelope <br></br>  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>  &lt;SOAP-ENV:Body&gt;<br></br>&lt;csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"<br></br> resultType="results" startPosition="1" maxRecords="10"&gt;<br></br>  &lt;csw:Query typeNames="csw:Record" xmlns:ogc="http://www.opengis.net/ogc"<br></br> xmlns:gml="http://www.opengis.net/gml"&gt;<br></br>    &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt; <br></br>    &lt;csw:Constraint version="1.1.0"&gt;<br></br>      &lt;ogc:Filter&gt;<br></br>        &lt;ogc:BBOX&gt;<br></br>&lt;ogc:PropertyName&gt;ows:BoundingBox&lt;/ogc:PropertyName&gt; <br></br>  &lt;gml:Envelope&gt;<br></br>	  &lt;gml:lowerCorner&gt;-118.3 32.1&lt;/gml:lowerCorner&gt; <br></br>	  &lt;gml:upperCorner&gt;-87.1 45.2&lt;/gml:upperCorner&gt; <br></br>	&lt;/gml:Envelope&gt;<br></br>        &lt;/ogc:BBOX&gt;<br></br>      &lt;/ogc:Filter&gt;<br></br>    &lt;/csw:Constraint&gt;<br></br>    &lt;ogc:SortBy&gt;<br></br>      &lt;ogc:SortProperty&gt;<br></br>         &lt;ogc:PropertyName&gt;dc:title&lt;/ogc:PropertyName&gt; <br></br>         &lt;ogc:SortOrder&gt;ASC&lt;/ogc:SortOrder&gt; <br></br>      &lt;/ogc:SortProperty&gt;<br></br>    &lt;/ogc:SortBy&gt;<br></br>  &lt;/csw:Query&gt;<br></br>  &lt;/csw:GetRecords&gt;   <br></br>  &lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+<br></br>
+</td>
+</tr>
+</table>
+</li>
+<li>
+<b>GetRecordById</b>
+<br>
+<b></b>
+</br>
+<b></b>
+<table>
+<tr>
+<td>
+<b>
+<i>KVP</i>
+</b>
+</td>
+<td> ?REQUEST=GetRecordById&amp;service=CSW&amp;version=2.0.2&amp;Id=B6A0EC8C-826D-11D8-BADF-080020ECC953 </td>
+</tr>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;&lt;csw:GetRecordById xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" version="2.0.2" service="CSW"&gt;  &lt;csw:Id&gt;B6A0EC8C-826D-11D8-BADF-080020ECC953&lt;/csw:Id&gt;&lt;/csw:GetRecordById&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br></br>&lt;SOAP-ENV:Envelope <br></br>  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance" <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt;<br></br>  &lt;SOAP-ENV:Body&gt;<br></br>    &lt;csw:GetRecordById xmlns:csw=http://www.opengis.net/cat/csw/2.0.2<br></br>      version="2.0.2" service="CSW"&gt;<br></br>      &lt;csw:Id&gt;B6A0EC8C-826D-11D8-BADF-080020ECC953&lt;/csw:Id&gt;<br></br>    &lt;/csw:GetRecordById&gt;<br></br>  &lt;/SOAP-ENV:Body&gt;<br></br>&lt;/SOAP-ENV:Envelope&gt;<br></br>
+</td>
+</tr>
+</table>
+</li>
+<li>
+<b>Transaction Insert</b>
+<br>
+<b></b>
+</br>
+<b></b>
+<table>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;csw:Transaction service="CSW"  <br></br>  version="2.0.2"  <br></br>  xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" &gt; <br></br>  &lt;csw:Insert&gt; <br></br>&#8230; metadata document is inserted here without xml prolog &#8230;<br></br>  &lt;/csw:Insert&gt; <br></br>&lt;/csw:Transaction&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;SOAP-ENV:Envelope  <br></br>  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"  <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"  <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt; <br></br>  &lt;SOAP-ENV:Body&gt; <br></br>    &lt;csw:Transaction service="CSW"  <br></br>      version="2.0.2"  <br></br>      xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" &gt; <br></br>      &lt;csw:Insert&gt; <br></br>&#8230; metadata document is inserted here without xml prolog &#8230;<br></br>      &lt;/csw:Insert&gt; <br></br>    &lt;/csw:Transaction&gt; <br></br>  &lt;/SOAP-ENV:Body&gt; <br></br>&lt;/SOAP-ENV:Envelope&gt;</td>
+</tr>
+</table>
+</li>
+<li>
+<b>Transaction Update</b>
+<br></br>The update request supports replacing entire documents only.<table>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;csw:Transaction service="CSW"  <br></br>  version="2.0.2"  <br></br>  xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" &gt; <br></br>  &lt;csw:Update&gt; <br></br>&#8230; metadata document is inserted here without xml prolog &#8230;<br></br>  &lt;/csw:Update&gt; <br></br>&lt;/csw:Transaction&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>	&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;SOAP-ENV:Envelope  <br></br>  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"  <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"  <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt; <br></br>  &lt;SOAP-ENV:Body&gt; <br></br>    &lt;csw:Transaction service="CSW"  <br></br>      version="2.0.2"  <br></br>      xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" &gt; <br></br>      &lt;csw:Update&gt; <br></br>&#8230; metadata document is inserted here without xml prolog &#8230;<br></br>      &lt;/csw:Update&gt; <br></br>    &lt;/csw:Transaction&gt; <br></br>  &lt;/SOAP-ENV:Body&gt; <br></br>&lt;/SOAP-ENV:Envelope&gt;</td>
+</tr>
+</table>
+</li>
+<li>
+<b>Transaction Delete</b>
+<br></br>The delete request supports deleting entire documents only based on the identifier. The identifiers are returned in the GetRecords response. The workflow is to find records that match certain criteria using the GetRecords request and then delete the returned records based on the dc:identifier.<table>
+<tr>
+<td>
+<b>
+<i>POST</i>
+</b>
+</td>
+<td>	&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;csw:Transaction service="CSW"  <br></br>  version="2.0.2" <br></br>  xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" <br></br>  xmlns:dc="http://www.purl.org/dc/elements/1.1/" <br></br>  xmlns:ogc="http://www.opengis.net/ogc"&gt; <br></br>  &lt;csw:Delete&gt; <br></br>    &lt;csw:Constraint version="2.0.2"&gt; <br></br>      &lt;ogc:Filter&gt; <br></br>        &lt;ogc:PropertyIsEqualTo&gt; <br></br>          &lt;ogc:PropertyName&gt;dc:identifier&lt;/ogc:PropertyName&gt; <br></br>          &lt;ogc:Literal&gt;A0522EE9-8C45-4399-8B73-7CCFC2BB9F60&lt;/ogc:Literal&gt; <br></br>        &lt;/ogc:PropertyIsEqualTo&gt; <br></br>      &lt;/ogc:Filter&gt; <br></br>    &lt;/csw:Constraint&gt; <br></br>  &lt;/csw:Delete&gt; <br></br>&lt;/csw:Transaction&gt;</td>
+</tr>
+<tr>
+<td>
+<b>
+<i>SOAP</i>
+</b>
+</td>
+<td>	&lt;?xml version="1.0" encoding="UTF-8"?&gt; <br></br>&lt;SOAP-ENV:Envelope  <br></br>  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"  <br></br>  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"  <br></br>  xmlns:xsi="http://www.w3.org/1999/XMLSchema-instance"  <br></br>  xmlns:xsd="http://www.w3.org/1999/XMLSchema"&gt; <br></br>  &lt;SOAP-ENV:Body&gt; <br></br>    &lt;csw:Transaction service="CSW"  <br></br>      version="2.0.2" <br></br>      xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" <br></br>      xmlns:dc="http://www.purl.org/dc/elements/1.1/" <br></br>      xmlns:ogc="http://www.opengis.net/ogc"&gt;      &lt;csw:Delete&gt; <br></br>        &lt;csw:Constraint version="2.0.2"&gt; <br></br>          &lt;ogc:Filter&gt; <br></br>            &lt;ogc:PropertyIsEqualTo&gt; <br></br>              &lt;ogc:PropertyName&gt;dc:identifier&lt;/ogc:PropertyName&gt; <br></br>              &lt;ogc:Literal&gt;A0522EE9-8C45-4399-8B73-7CCFC2BB9F60&lt;/ogc:Literal&gt; <br></br>            &lt;/ogc:PropertyIsEqualTo&gt; <br></br>          &lt;/ogc:Filter&gt; <br></br>        &lt;/csw:Constraint&gt; <br></br>      &lt;/csw:Delete&gt; <br></br>    &lt;/csw:Transaction&gt; <br></br>  &lt;/SOAP-ENV:Body&gt; <br></br>&lt;/SOAP-ENV:Envelope&gt;</td>
+</tr>
+</table>
+</li>
+</ol>
+</p>
+<a name="wsdl"></a>
+<h3>Geoportal Extension WSDL</h3>
+
+<p>The wsdl associated with the Geoportal CS-W SOAP endpoints is based upon the OGC example located at <a href="http://schemas.opengis.net/csw/2.0.2/examples/wsdl/2.0.2/">http://schemas.opengis.net/csw/2.0.2/examples/wsdl/2.0.2/</a>
+<br></br>
+<br></br>The Geoportal wsdl files associated with its CS-W SOAP endpoints are located at http://&lt;host&gt;:&lt;port&gt;/geoportal/csw/service-wsdl.jsp, where &lt;host&gt; is the Geoportal host server, and &lt;port&gt; is the Tomcat port number.  They are stored in the &lt;TOMCAT&gt;\webapps\geoportal\csw directory, and are the following:<ul>
+<li>http-binding.wsdl</li>
+<li>kvp-binding.wsdl</li>
+<li>responses.wsdl</li>
+<li>service-wsdl.jsp</li>
+<li>soap-binding.wsdl</li>
+<li>xml-interfaces.wsdl</li>
+</ul>
+</p>
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div> 
+
+</body>
+</html>

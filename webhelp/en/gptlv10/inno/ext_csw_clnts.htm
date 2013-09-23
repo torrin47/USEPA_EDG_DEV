@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+             
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>CSW Clients for ArcGIS</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+      
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>CSW Clients for ArcGIS</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="csw_clients"></a>
+<h2>CSW Clients for ArcGIS</h2>
+
+<p>The CSW Clients bring Geoportal discovery functionality into your ArcMap and ArcGIS Explorer applications. They enable searching  <a href="http://www.opengeospatial.org/standards/cat">OGC Catalog Service for the Web</a> (CS-W) metadata catalogs directly through ArcMap and ArcGIS Explorer. Once metadata records are returned, they can be viewed or downloaded.  Additionally, if the metadata references data identified as "Live Data and Maps", the data can be added to the ArcMap document or ArcGIS Explorer Globe. In ArcMap, there are additional functionalities that allow users to preview the data's spatial extent.<br></br>
+<br></br>To learn more about how the Geoportal extension uses CS-W, please see <a href="geoportal_csw_cmpnts.htm"> Geoportal Extension Catalog Service</a>.<ul>
+<li>
+<a href="#install_csw_clients"> Installing CSW Clients for ArcGIS </a>
+</li>
+<li>
+<a href="#using_csw_clients"> Using CSW Clients for ArcGIS </a>
+</li>
+<li>
+<a href="#config_csw_prfles"> Configure Additional Catalogs and Profiles</a>
+</li>
+</ul>
+</p>
+<a name="install_csw_clients"></a>
+<h3>Installing CSW Clients for ArcGIS</h3>
+
+<p>
+<ul>
+<li>
+<i>Installation</i>
+<br></br>
+<ol>
+<li>Download the CSW Clients from the  <a href="http://www.esri.com/software/arcgis/geoportal/clients.html">Geoportal extension Clients</a> website.</li>
+<li>Unzip the downloaded file. </li>
+<li>Run setup.exe. </li>
+<li>Follow the instructions in the setup wizard. Running the setup command in the "CSW Clients" install folder will install both the CSW Client for ArcGIS Desktop and the CSW Client for ArcGIS Explorer in one operation. You will need to specify which version (500 or lower, or 900) of ArcGIS Explorer is installed on your machine. If you do not have ArcGIS Explorer installed, you can  <a href="http://www.esri.com/software/arcgis/explorer/index.html">download it</a>.  If you do not want to download ArcGIS Explorer but do want to use the CSW Clients in ArcMap, then it does not matter which option you select.</li>
+<li>During installation, the installer checks for the presence of the ArcGIS .NET framework. If the .NET Framework is not found, the CSW Client for ArcGIS Desktop will not be installed. However, installation will continue for CSW Client for ArcGIS Explorer, and a dialog box will appear notifying you of the installation status.</li>
+</ol>
+</li>
+<br></br>
+<li>
+<i>Add the CSW Client to ArcMap</i>
+<br></br>
+<ol>
+<li>Start the ArcMap application of ArcGIS Desktop (ArcInfo, ArcEditor, or ArcView). </li>
+<li>Click Tools. </li>
+<li>Click Customize. </li>
+<li>Click the Commands tab. </li>
+<li>Scroll down through the list of Commands and highlight "Geoportal." The "CSW Client" icon will appear in the Commands window on the right. </li>
+<li>Highlight "CSW Client" in the list of Commands. </li>
+<li>Drag the CSW Client icon to any empty space on any toolbar in ArcMap that you wish. </li>
+<li>Close the Customize Box. </li>
+</ol>
+</li>
+<br></br>
+<li>
+<i>Add the CSW Client to ArcGIS Explorer, version 500 or lower</i>
+<br></br>
+<ol>
+<li>Open the ArcGIS Explorer application. </li>
+<li>At the top of the application, click on the "Tools" menu and select "Manage Tasks". A "Manage Tasks" popup window appears.</li>
+<li>Click "Get Tasks..." </li>
+<li>Browse to the directory where the CSW Client files were installed. The default filepath is "C:\Program Files\ESRI\Geoportal\CswClients\". </li>
+<li>Select the "CSWSearchTask.CustomTaskUI.nmf" file and click "Open". A download box appears. Click "Download". </li>
+<li>After the file has been downloaded into ArcGIS Explorer, the "Manage Tasks" window will have changed. It now has the "CSW Client" tasks listed in the left of the two boxes. </li>
+<li>Highlight the "CSW Client" task and click on the arrow located between the two boxes. The "Find Services" task is added to the box on the right. </li>
+<li>Click "OK" to close the Manage Tasks window. </li>
+<li>Notice that the "CSW Client" task is now listed at the bottom of the Tasks menu. Click on the arrow to the far right of the CSW Client task and select "Activate" to open it.<br></br>
+<div style="backgroun-color:red">You must add the CSW Client task to ArcGIS Explorer each time you launch ArcGIS Explorer version 500 or lower, unless you set the task to be included in your default.nmf map document for the program.</div>
+</li>
+</ol>
+</li>
+<li>
+<i>Add the CSW Client to ArcGIS Explorer, version 900</i>
+<br></br>
+<ol>
+<li>Open the ArcGIS Explorer application. </li>
+<li>At the top of the application, click on the Globe icon in the upper left corner.   Click on the button on the bottom of the window that reads "ArcGIS Explorer Options". An "ArcGIS Explorer Options" window appears.</li>
+<li>Click "Resources" from the menu on the left.  The screen to the right populates with several headings. Click the "Add-Ins" button to the right of the Manage Add-Ins heading. </li>
+<li>Another window opens where you can view and manage Add-Ins.  Click the "Add" button to the right of the window, and browse to the CSW Clients file "CSWSearchDockWindow.eaz", usually located at C:\Program Files\ESRI\Geoportal\CSWClients by default.</li>
+<li>Click "Open" to load the Add-In.</li>
+<li>When you close the Add-In dialog, you may be prompted to restart your ArcGIS Explorer 900 application.  After it restarts, the CSW Client will always be available by default unless you choose to remove it from the Add-In's list.</li>
+<li>Access the CSW Client by clicking the Add-In tab at the top of the ArcGIS Explorer application.</li>
+</ol>
+</li>
+</ul>The CSW Client is now ready to be used. Read <a href="#using_csw_clients">Using CSW Clients</a> for more about how to use the CSW Clients, and <a href="logging_options.htm#cswClientLogs">Logs for the CSW Clients</a> for information about logging.</p>
+<a name="using_csw_clients"></a>
+<h3>Using CSW Clients for ArcGIS</h3>
+
+<p>The CSW Clients work the same way in both ArcMap and ArcGIS Explorer. How to search a catalog for data, view metadata, download metadata, and add it to the map are described below. In ArcMap, click the CSW Client <img src="clients_csw1.png" class="img_inline"></img> button to open the tool. In ArcGIS Explorer 500 or lower, click the CSW Client task in the Task list to open the task. In ArcGIS Explorer 900, select the Add-Ins tab, and select the CSW Client to open the task.<ul>
+<li>
+<b>Search a Catalog</b>
+<br>
+<b></b>
+</br> 	To conduct a search:<ol>
+<li>Click on the Find tab.</li>
+<li>Type a term in the "Find" text box. </li>
+<li>Choose one of the Catalog Services from the "In Catalog" dropdown menu. To configure additional catalogs, see <a href="#config_csw_prfles">Configure Additional Catalogs and Profiles</a>.<br>
+<b></b>
+</br>
+<br>
+<b></b>
+</br>
+<b>
+<i>Search Parameters</i>
+</b>
+<ul>
+<li>
+<i>Live Data and Maps Only:</i>
+<br>
+<b></b>
+</br>The search can be limited to metadata whose data is classified as having the type "Live Data and Maps" by checking the box just beneath the "In Catalog" menu. Data of type "Live Data and Maps" can be added to ArcMap or ArcGIS Explorer as a layer.  Data of other types, such as static images, downloadable data, applications, etc. cannot be added.</li>
+<li>
+<i>Maximum:</i>
+<br>
+<b></b>
+</br>To limit the number of records returned in the search results, change the value in the "Maximum" box. The limit is 500.</li>
+<li>
+<i>Use Current Extent (ArcMap only):</i>
+<br>
+<b></b>
+</br>If an extent is already defined in the ArcMap document window, this box can be checked and the CSW Client will only retrieve results that fall into the defined extent.  Some CSW service URLs do not enable extent requests, so this may affect the number of results returned.</li>
+</ul>
+</li>
+<li> Click the "Find" button to execute the search. Results are returned in the "Results" window. 	For each result metadata record returned, the "Abstract" window will display the abstract information for the selected metadata document.<br></br>
+<br></br>
+<img src="clients_csw2.png" class="img_inline"></img>
+<br></br>
+<br></br>
+</li>
+</ol>
+</li>
+<li>
+<b>Use Search Results</b>
+<br>
+<b></b>
+</br> 	Notice the tools located above the Results box. The first three buttons are the "View Metadata", "Download Metadata" and "Add to Map" tools, and will display in both the CSW Client Task in ArcGIS Explorer and the CSW Client tool in ArcMap.  The last four buttons are the "Display Footprint", "Zoom to Footprint", "Show All Footprint" and "Clear All Footprint" tools, and are available only in ArcMap.<br></br>
+<br></br>
+<img src="clients_csw3.png" class="img_inline"></img>
+<br></br>
+<br></br>
+<ul>
+<li>The <i>View Metadata</i>
+<img src="clients_csw4.png" class="img_inline"></img> tool will open the metadata's XML document in a new window.</li>
+<li>The <i>Download Metadata</i>
+<img src="clients_csw5.png" class="img_inline"></img> tool allows the metadata XML to be downloaded and saved.</li>
+<li>The <i>Add to Map </i>
+<img src="clients_csw6.png" class="img_inline"></img>  tool will add the data described by the metadata to the map or globe as a new layer.  This button will be grayed out unless the metadata document has a content type of "Live Data and Maps". Currently, only Open Geospatial Consortium (OGC) Web Map Services (WMS) and ArcIMS Image Services are viewable as Live Data and Maps with the CSW Client.</li>
+<li>The four additional buttons available in ArcMap show a record's spatial footprint in the current map window. The extent shown in the footprint corresponds to the bounding box defined in the metadata document.<ul>
+<li>The <i>Display Footprint</i> tool will show the extent of the highlighted metadata on the current map.</li>
+<br></br>
+<br></br>
+<img src="clients_csw7.png" class="img_inline"></img>
+<br></br>
+<br></br>
+<li>The <i>Zoom to Footprint</i>
+<img src="clients_csw8.png" class="img_inline"></img>  tool will zoom to the extent of the highlighted metadata on the current map. This is especially useful if the extent is a small region or the basemap uses a customized projection.</li>
+<li>The <i>Show All Footprint</i>
+<img src="clients_csw9.png" class="img_inline"></img>  tool will add all the footprints in the Results window to the map at once. To hide them, click the same button again.</li>
+<li>The <i>Clear All Footprint</i>
+<img src="clients_csw10.png" class="img_inline"></img>  tool will remove all footprints that have been added to the map.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul> 	Use these tools to preview metadata, download it, and add it to the map or globe.</p>
+<a name="config_csw_prfles"></a>
+<h3>Configure Additional Catalogs and Profiles</h3>
+
+<p>One catalog and several profiles are preconfigured by default. This guide first outlines how to register additional catalogs and update existing ones. Then, adding additional profiles is discussed.<ul>
+<li>
+<b>Register/Update Additional Catalogs</b>
+<br></br>Start by clicking the "Configure" tab.<br></br>
+<br></br>
+<img src="clients_csw11.png" class="img_inline"></img>
+<br></br>
+<br></br>
+<ul>
+<li>
+<i>Register a New Catalog </i>
+<ol>
+<li>Click the <img src="clients_csw12.png" class="img_inline"></img> (new) button. </li>
+<li>In the "Catalog Service URL" input box, type the GetCapabilities URL of the service you wish to add. </li>
+<li>In the "Profile" drop-down list, specify the profile that the catalog uses. To find out what profile the catalog uses, paste the GetCapabilities URL in a web browser and read the resulting xml, or refer to the organization that hosts the catalog. </li>
+<li>Provide a display name for the catalog by typing a name in the "Display Name" box. </li>
+<li>Click the <img src="clients_csw13.png" class="img_inline"></img>save button to add the new catalog to the catalog list.</li>
+</ol>
+</li>
+<li>
+<i>Update an Existing Catalog</i>
+<ol>
+<li>Click the "Configure" tab. </li>
+<li>Highlight the catalog that is going to be updated. The Catalog Service URL, Profile, and Display Name will be loaded into the interface.</li>
+<li>Make any changes to these fields.</li>
+<li>Click the <img src="clients_csw13.png" class="img_inline"></img>save button.</li>
+</ol>
+</li>
+<li>
+<i>Delete an Existing Catalog</i>
+<ol>
+<li>Click the "Configure" tab.</li>
+<li>Highlight the catalog that you want to delete from the registered catalog list.</li>
+<li>Click the <img src="clients_csw14.png" class="img_inline"></img>delete button.</li>
+<li>The system will display a confirmation dialog box. Click "Yes" to confirm the delete.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<b>Configuring Additional Profiles</b>
+<p>A profile is a specific XSLT document that translates requests and responses between the ArcMap or ArcGIS Explorer interface and the CSW service being searched. Every CSW service abides by a certain profile. <br></br>
+<br></br>The XSLT documents that define each CSW profile can be found in the users application folder (Windows default: C:\Program Files\ESRI\Geoportal\CswClients\Data). There are also two additional files called "CSWProfiles.xml" and "CSWCatalogs.xml" in this folder.  The CSWProfiles.xml defines how the xslt files in the Data folder are used for each profile. The CSWCatalogs.xml file is a template for a user-specific CSWCatalogs.xml file that is stored for each system user in their user\Application Data\ESRI folder. Advanced users can alter the CSWProfiles.xml file to add different profiles. ESRI will also provide more profiles for download as they are developed.  To find out what profile the catalog uses, paste the GetCapabilities URL in a web browser and read the resulting xml, or refer to the organization that hosts the catalog.</p>
+</li>
+</ul>
+</p>
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div> 
+
+</body>
+</html>

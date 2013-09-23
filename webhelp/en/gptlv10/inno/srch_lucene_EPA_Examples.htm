@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+             
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>Using Lucene Search Text Queries</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+      
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>Using Lucene Search Text Queries</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="using_search"></a>
+<h2>EPA Examples Using Lucene Search Text Queries</h2>
+
+<p>The GDG uses a sophisticated search engine that is based on the open source search engine 
+<a href="http://lucene.apache.org">Apache Lucene</a>.<br>There are a number of ways to refine and optimize your searches using this syntax.  
+Some examples that are specific to EPA data are provided below.  
+For more information on Lucene search at the GDG in general, please see the <a href="srch_lucene.htm">Lucene Search</a> page.
+
+
+<br></br>
+<ul>
+<li>Often, a search results in more hits than one may want.  Results may be refined using the AND operator.  
+For example, to find EPA facilities, the term <i>EPA AND Facility</i> ensures that results contain the terms EPA and facility.
+<li>Quotes can be used to specify a phrase.  For example, a phrase may be used with the above search as follows: <i>EPA AND "Region 1" AND Facility</i>
+<li>The NOT operator can be used to filter out information that one does not want included in the search result.  For example, the search <i>EPA AND "Region 1" AND NOT Facility</i> would search for all EPA Region 1 data that does not contain the word facility
+<li>Users can search for a word contained in a particular field of the metadata record, such as the title. The following search <i> title:EPA+Region+2</i> will search for all metadata records that have the words EPA, Region, and 2 in the title.
+<li>Expanding results can be done using wildcard characters.  
+The "*" symbol can be used with any part of a phrase to expand the search.  
+For example, the phrase facilit* will search for facilities or facility.
+<li>The ^ symbol can be used to elevate a term with a boost factor. For example, <i>"air quality"^4 "water quality"</i> would boost the term air quality over water quality.
+
+<br></br>Fore more information on how to specifically leverage Lucene search syntax for powerful searching in your Geoportal, please see the <a href="http://lucene.apache.org/java/2_3_2/queryparsersyntax.html">Lucene</a> website.</p>
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div> 
+
+</body>
+</html>

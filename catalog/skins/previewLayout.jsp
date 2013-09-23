@@ -26,7 +26,7 @@
 <f:loadBundle basename="gpt.resources.gpt" var="gptMsg"/>
 <gpt:prepareView/>
 
-<html lang="<%=request.getLocale().getLanguage()%>">
+<html>
 
 <head>
 	<title><%=com.esri.gpt.framework.jsf.PageContext.extract().getSiteTitle()%></title>

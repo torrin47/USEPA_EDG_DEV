@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+             
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>Preview Function</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+      
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>Preview Function</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="previewer"></a>
+<h2>Preview Function</h2>
+
+<p>The Preview function is a widget that provides a map view of live data described by metatdata records in the Geoportal. For instructions on navigating the map, see the <a href="#previewNav"> section below</a>.  The Preview can be launched from the search result page from the 'Preview' link in a search result, through the web browser url window, or from an embedded url in another web page. It is also contained in the search result "details" page, displaying only if the metadata describes a live data resource.  <br></br>
+<br></br>When the preview function is launched, the preview widget submits the text identified in the metadata record as the live data link to the server. The proxy on the server intercepts the link, and queries it to determine what type of live data url it is (an ArcGIS Server service, a WMS Service, an ArcIMS service, etc.). When it identifies the type of service and confirms that the format of the url will return the live data, the server sends the url back to the widget for display in the browser.<br></br>
+<br></br>
+<img src="gpt_comps_preview.png" class="img_inline"></img>
+<br></br>
+<br></br>The Preview page has four sections:<ol>
+<li>Service field: url of the service or referenced website that is loaded in the Preview window</li>
+<li>Embed field: html element that can be copied and input as a customization to other web pages</li>
+<li>Preview window: window in center of page that will display the map service, an uploaded image, the organization's website, or another element if possible. Some metadata documents do not provide enough information to populate the Preview window, or reference a service that does not support an image (for example, a CS-W service).</li>
+<li>
+<a href="using_rest.htm">REST API </a>metadata information: displays the REST API metadata entry. </li>
+</ol>
+<br></br>
+<br></br>There are four ways to access the Preview:<ol>
+<li>When viewing a list of search results in the Search page, the search results will have a Preview link.  Clicking on the Preview link will load the Preview page for that metadata record.</li>
+<li>If the details link is clicked for a search result that describes live data, then the details page will also display the preview map of the service in a section titled 'Live Data.</li>
+<li>Outside of the Geoportal, you can access the Preview for a specific service by entering the following into your browser:<table>
+<tr>
+<th>Syntax</th>
+<th>Example</th>
+</tr>
+<tr>
+<td>&lt;Geoportal Instance Name&gt;/catalog/livedata/preview.page?url=&lt;service url&gt;</td>
+<td>http://ESRI_server/geoportal/catalog/livedata/preview.jsp?url=http://esri_server:8399/arcgis/services/California_Map/MapServer/WMSServer?request=GetCapabilities&amp;service=WMS</td>
+</tr>
+</table>
+</li>
+<li>It is also possible to embed the Preview in another webpage.  Simply copy the information from the "Embed" field into the webpage (can be a page outside the Geoportal web application structure), and save the file.</li>
+</ol>
+</p>
+<a name="previewNav"></a>
+<h2>Navigating the Preview Map</h2>
+
+<p>The Preview map is built using the javascript API.  Navigation behavior will be like the javascript api map available as an <a href="http://resources.esri.com/help/9.3/arcgisserver/apis/javascript/arcgis/demos/map/map_add.html">example on the resource center</a>.<ul>
+<li>
+<i>Preview Map navigation controls, using the mouse:</i>
+<ul>
+<li>Drag to pan</li>
+<li>SHIFT + click to recenter</li>
+<li>SHIFT + click + drag to define an extent in which to zoom</li>
+<li>Mouse scroll forward to zoom in</li>
+<li>Mouse scroll backward to zoom out</li>
+<li>Double click to center and zoom in</li>
+</ul>
+</li>
+<li>
+<i>Preview Map navigation controls, using the keyboard:</i>
+<ul>
+<li>Up, down, left, right Arrow keys to pan</li>
+<li>+ key to zoom in a level</li>
+<li>-  key to zoom out a level</li>
+</ul>
+</li>
+</ul>
+</p>
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div> 
+
+</body>
+</html>

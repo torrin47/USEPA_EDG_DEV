@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema key="dataGov"
+        templateFile="gpt/metadata/data-gov/data-gov-template.xml">
+  <!-- schema label -->
+  <label resourceKey="catalog.mdParam.schema.dataGov"/>
+  <!-- schema interrogation -->
+  <interrogation count="count(/dataGov/basic/*[name()='title'])"/>
+<!-- indexables -->
+<indexables fileName="gpt/metadata/data-gov/data-gov-indexables.xml"/>
+
+  <!-- basic section, all metadata must contain this -->
+  <section key="basic" obligation="mandatory" open="true">
+    <label resourceKey="catalog.mdParam.basic.caption"/>
+    <parameter key="basic.uniqueId" visible="true">
+      <label resourceKey="catalog.mdParam.basic.uniqueId"/>
+      <input type="text" editable="false"
+             size="50"/>
+      <content nodeType="single" useSelectForUpdate="false" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/basic/uniqueId">
+      </content>
+    </parameter>
+    <parameter key="basic.userGeneratedId" visible="true">
+     <label resourceKey="catalog.mdParam.basic.userGeneratedId"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/userGeneratedId">
+      </content>
+    </parameter>
+    <parameter key="basic.title" visible="true">
+      <label resourceKey="catalog.mdParam.basic.title"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/title">
+      </content>
+    </parameter>
+    <parameter key="basic.datasetGroupName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.datasetGroupName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/datasetGroupName">
+      </content>
+    </parameter>
+    <parameter key="basic.description" visible="true">
+      <label resourceKey="catalog.mdParam.basic.description"/>
+      <input type="textArea" editable="true"
+             rows="8" cols="85"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/description">
+      </content>
+    </parameter>
+    <parameter key="basic.agencyName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.agencyName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/agencyName">
+      </content>
+    </parameter>
+    <parameter key="basic.agencyShortName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.agencyShortName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/agencyShortName">
+      </content>
+    </parameter>
+    <parameter key="basic.subAgencyName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.subAgencyName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/subAgencyName">
+      </content>
+    </parameter>
+    <parameter key="basic.subAgencyShortName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.subAgencyShortName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/subAgencyShortName">
+      </content>
+    </parameter>
+    <parameter key="basic.contactName" visible="true">
+      <label resourceKey="catalog.mdParam.basic.contactName"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/contactName">
+      </content>
+    </parameter>
+    <parameter key="basic.contactPhoneNumber" visible="true">
+      <label resourceKey="catalog.mdParam.basic.contactPhoneNumber"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/contactPhoneNumber">
+      </content>
+    </parameter>
+    <parameter key="basic.contactEmailAddress" visible="true">
+      <label resourceKey="catalog.mdParam.basic.contactEmailAddress"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="email"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/contactEmailAddress">
+      </content>
+    </parameter>
+    <parameter key="basic.agencyResponsibleForQuality" visible="true">
+      <label resourceKey="catalog.mdParam.basic.agencyResponsibleForQuality"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/agencyResponsibleForQuality">
+      </content>
+    </parameter>
+    <parameter key="basic.complianceWithAgencysQualityGuidelines" visible="true">
+      <label resourceKey="catalog.mdParam.basic.complianceWithAgencysQualityGuidelines"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/complianceWithAgencysQualityGuidelines">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.privacyAndConfidential" visible="true">
+      <label resourceKey="catalog.mdParam.basic.privacyAndConfidential"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/privacyAndConfidential">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+          <code key="Not Relevant" resourceKey="catalog.mdParam.basic.yesNo.notRelevant"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.dataGovCatalogType" visible="true">
+      <label resourceKey="catalog.mdParam.basic.dataGovCatalogType"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/dataGovCatalogType">
+        <codes>
+          <code key="Raw Data Catalog" resourceKey="catalog.mdParam.basic.catType.raw"/>
+          <code key="Tool Catalog" resourceKey="catalog.mdParam.basic.catType.tool"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.subjectArea" visible="true">
+      <label resourceKey="catalog.mdParam.basic.subjectArea"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/subjectArea">
+        <codes>
+          <code key="1" resourceKey="catalog.mdParam.basic.subjectArea.1"/>
+          <code key="2" resourceKey="catalog.mdParam.basic.subjectArea.2"/>
+          <code key="3" resourceKey="catalog.mdParam.basic.subjectArea.3"/>
+          <code key="4" resourceKey="catalog.mdParam.basic.subjectArea.4"/>
+          <code key="5" resourceKey="catalog.mdParam.basic.subjectArea.5"/>
+          <code key="6" resourceKey="catalog.mdParam.basic.subjectArea.6"/>
+          <code key="7" resourceKey="catalog.mdParam.basic.subjectArea.7"/>
+          <code key="8" resourceKey="catalog.mdParam.basic.subjectArea.8"/>
+          <code key="9" resourceKey="catalog.mdParam.basic.subjectArea.9"/>
+          <code key="10" resourceKey="catalog.mdParam.basic.subjectArea.10"/>
+          <code key="11" resourceKey="catalog.mdParam.basic.subjectArea.11"/>
+          <code key="12" resourceKey="catalog.mdParam.basic.subjectArea.12"/>
+          <code key="13" resourceKey="catalog.mdParam.basic.subjectArea.13"/>
+          <code key="14" resourceKey="catalog.mdParam.basic.subjectArea.14"/>
+          <code key="15" resourceKey="catalog.mdParam.basic.subjectArea.15"/>
+          <code key="16" resourceKey="catalog.mdParam.basic.subjectArea.16"/>
+          <code key="17" resourceKey="catalog.mdParam.basic.subjectArea.17"/>
+          <code key="18" resourceKey="catalog.mdParam.basic.subjectArea.18"/>
+          <code key="19" resourceKey="catalog.mdParam.basic.subjectArea.19"/>
+          <code key="20" resourceKey="catalog.mdParam.basic.subjectArea.20"/>
+          <code key="21" resourceKey="catalog.mdParam.basic.subjectArea.21"/>
+          <code key="22" resourceKey="catalog.mdParam.basic.subjectArea.22"/>
+          <code key="23" resourceKey="catalog.mdParam.basic.subjectArea.23"/>
+          <code key="24" resourceKey="catalog.mdParam.basic.subjectArea.24"/>
+          <code key="25" resourceKey="catalog.mdParam.basic.subjectArea.25"/>
+          <code key="26" resourceKey="catalog.mdParam.basic.subjectArea.26"/>
+          <code key="27" resourceKey="catalog.mdParam.basic.subjectArea.27"/>
+          <code key="28" resourceKey="catalog.mdParam.basic.subjectArea.28"/>
+          <code key="29" resourceKey="catalog.mdParam.basic.subjectArea.29"/>
+          <code key="30" resourceKey="catalog.mdParam.basic.subjectArea.30"/>
+          <code key="31" resourceKey="catalog.mdParam.basic.subjectArea.31"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.specializedDataCategoryDesignation" visible="true">
+      <label resourceKey="catalog.mdParam.basic.specializedDataCategoryDesignation"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/specializedDataCategoryDesignation">
+        <codes>
+          <code key="administrative" resourceKey="catalog.mdParam.basic.dataCatagory.administrative"/>
+          <code key="statistical" resourceKey="catalog.mdParam.basic.dataCatagory.statistical"/>
+          <code key="geospatial" resourceKey="catalog.mdParam.basic.dataCatagory.geospatial"/>
+          <code key="surveillance" resourceKey="catalog.mdParam.basic.dataCatagory.surveillance"/>
+          <code key="research" resourceKey="catalog.mdParam.basic.dataCatagory.research"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.keywords" visible="true">
+      <label resourceKey="catalog.mdParam.basic.keywords"/>
+      <input type="text" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/keywords">
+      </content>
+    </parameter>
+    <parameter key="basic.dateReleased" visible="true">
+      <label resourceKey="catalog.mdParam.basic.dateReleased"/>
+      <input type="text" editable="true"
+             size="25" hintResourceKey="catalog.general.inputDateFormat"/>
+      <validation required="true" valueType="date"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/dateReleased">
+      </content>
+    </parameter>
+    <parameter key="basic.dateUpdated" visible="true">
+      <label resourceKey="catalog.mdParam.basic.dateUpdated"/>
+      <input type="text" editable="true"
+             size="25" hintResourceKey="catalog.general.inputDateFormat"/>
+      <validation required="true" valueType="date"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/dateUpdated">
+      </content>
+    </parameter>
+    <parameter key="basic.agencyProgramUrl" visible="true">
+      <label resourceKey="catalog.mdParam.basic.agencyProgramUrl"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/agencyProgramUrl">
+      </content>
+    </parameter>
+    <parameter key="basic.agencyDataSeriesUrl" visible="true">
+      <label resourceKey="catalog.mdParam.basic.agencyDataSeriesUrl"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/agencyDataSeriesUrl">
+      </content>
+    </parameter>
+    <parameter key="basic.collectionMode" visible="true">
+      <label resourceKey="catalog.mdParam.basic.collectionMode"/>
+      <input type="selectManyCheckbox" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             size="50"/>
+      <validation required="true"/>
+      <content nodeType="list" useSelectForUpdate="true"
+               select="/dataGov/basic/collectionMode">
+        <codes>
+          <code key="phone-paper" resourceKey="catalog.mdParam.basic.collectionMode.phonePaper"/>
+          <code key="phone-computer" resourceKey="catalog.mdParam.basic.collectionMode.phoneComputer"/>
+          <code key="person-paper" resourceKey="catalog.mdParam.basic.collectionMode.personPaper"/>
+          <code key="person-computer" resourceKey="catalog.mdParam.basic.collectionMode.personComputer"/>
+          <code key="web" resourceKey="catalog.mdParam.basic.collectionMode.web"/>
+          <code key="fax" resourceKey="catalog.mdParam.basic.collectionMode.fax"/>
+          <code key="type-of-monitor" resourceKey="catalog.mdParam.basic.collectionMode.typeOfMonitor"/>
+          <code key="other" resourceKey="catalog.mdParam.basic.collectionMode.other"/>
+	</codes>
+      </content>
+    </parameter>
+    <parameter key="basic.frequency" visible="true">
+      <label resourceKey="catalog.mdParam.basic.frequency"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/frequency">
+      </content>
+    </parameter>
+    <parameter key="basic.periodOfCoverage" visible="true">
+      <label resourceKey="catalog.mdParam.basic.periodOfCoverage"/>
+      <input type="delimitedTextArea" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             cols="85" rows="2"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="list" useSelectForUpdate="true"
+               select="/dataGov/basic/periodOfCoverage">
+      </content>
+    </parameter>
+    <parameter key="basic.unitOfAnalysis" visible="true">
+      <label resourceKey="catalog.mdParam.basic.unitOfAnalysis"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/unitOfAnalysis">
+      </content>
+    </parameter>
+    <parameter key="basic.geographicScope" visible="true">
+      <label resourceKey="catalog.mdParam.basic.geographicScope"/>
+      <input type="delimitedTextArea" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             cols="85" rows="2"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="list" useSelectForUpdate="true"
+               select="/dataGov/basic/geographicScope">
+      </content>
+    </parameter>
+    <parameter key="basic.geographicGranularity" visible="true">
+      <label resourceKey="catalog.mdParam.basic.geographicGranularity"/>
+      <input type="text" editable="true"
+             size="50"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/geographicGranularity">
+      </content>
+    </parameter>
+    <parameter key="basic.referenceForTechnicalDocumentation" visible="true">
+      <label resourceKey="catalog.mdParam.basic.referenceForTechnicalDocumentation"/>
+      <input type="text" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/referenceForTechnicalDocumentation">
+      </content>
+    </parameter>
+    <parameter key="basic.dataDictionaryVariableList" visible="true">
+      <label resourceKey="catalog.mdParam.basic.dataDictionaryVariableList"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/dataDictionaryVariableList">
+      </content>
+    </parameter>
+    <parameter key="basic.dataCollectionInstrument" visible="true">
+      <label resourceKey="catalog.mdParam.basic.dataCollectionInstrument"/>
+      <input type="delimitedTextArea" editable="true" hintResourceKey="catalog.mdParam.basic.multipleHint"
+             cols="85" rows="2"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="list" useSelectForUpdate="true"
+               select="/dataGov/basic/dataCollectionInstrument">
+      </content>
+    </parameter>
+    <parameter key="basic.bibliographicCitationForDataset" visible="true">
+      <label resourceKey="catalog.mdParam.basic.bibliographicCitationForDataset"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/bibliographicCitationForDataset">
+      </content>
+    </parameter>
+    <parameter key="basic.numberDatasetsRepresentedByThisSubmission" visible="true">
+      <label resourceKey="catalog.mdParam.basic.numberDatasetsRepresentedByThisSubmission"/>
+      <input type="text" editable="true"
+             size="15"/>
+      <validation required="true" valueType="integer"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/numberDatasetsRepresentedByThisSubmission">
+      </content>
+    </parameter>
+    <parameter key="basic.additionalMetadata" visible="true">
+      <label resourceKey="catalog.mdParam.basic.additionalMetadata"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/additionalMetadata">
+      </content>
+    </parameter>
+    <parameter key="basic.datasetUseRequiresLicense" visible="true">
+      <label resourceKey="catalog.mdParam.basic.datasetUseRequiresLicense"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/datasetUseRequiresLicense">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="basic.datasetLicenseAgreementUrl" visible="true">
+      <label resourceKey="catalog.mdParam.basic.datasetLicenseAgreementUrl"/>
+      <input type="text" editable="true"
+             size="100" hintResourceKey="catalog.mdParam.basic.datasetLicenseAgreementUrl.hint"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true"
+               select="/dataGov/basic/datasetLicenseAgreementUrl">
+      </content>
+    </parameter>
+ </section>
+  <section key="downloadableFile" obligation="optional" open="false"
+       select="/dataGov/downloadableFile[1]">
+    <label resourceKey="catalog.mdParam.downloadableFile.caption"/>
+    <parameter key="downloadableFile.accessPoint" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.accessPoint"/>
+      <input type="text" editable="true" size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[1]/accessPoint">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile.mediaFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.mediaFormat"/>
+      <input type="selectWithOther" otherCodeKey="notCompressed" defaultValue="CSV-TXT" editable="true"
+             size="15"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[1]/mediaFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xml"/>
+          <code key="CSV-TXT" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.csvTxt"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xls"/>
+          <code key="Shape File" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.shapeFile"/>
+          <code key="KML-KMZ" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.kmlKmz"/>
+          <code key="notCompressed" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.other"/>
+	</codes>
+      </content>
+    </parameter>
+    <parameter key="downloadableFile.fileSize" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileSize"/>
+      <input type="text" editable="true"
+             size="15" hintResourceKey="catalog.mdParam.downloadableFile.fileSize.hint"/>
+      <validation required="true" valueType="double"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[1]/fileSize">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile.fileFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileFormat"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[1]/fileFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xml"/>
+          <code key="TXT-CSV" resourceKey="catalog.mdParam.downloadableFile.fileFormat.txtCsv"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xls"/>
+          <code key="KML-KML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.kmlKmz"/>
+          <code key="Shapefile" resourceKey="catalog.mdParam.downloadableFile.fileFormat.shapefile"/>
+          <code key="Map" resourceKey="catalog.mdParam.downloadableFile.fileFormat.map"/>
+	</codes>
+      </content>
+    </parameter>
+  </section>
+  <section key="downloadableFile2" obligation="optional" open="false"
+       select="/dataGov/downloadableFile[2]">
+    <label resourceKey="catalog.mdParam.downloadableFile2.caption"/>
+    <parameter key="downloadableFile2.accessPoint" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.accessPoint"/>
+      <input type="text" editable="true" size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[2]/accessPoint">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile2.mediaFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.mediaFormat"/>
+      <input type="selectWithOther" otherCodeKey="notCompressed" defaultValue="CSV-TXT" editable="true"
+             size="15"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[2]/mediaFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xml"/>
+          <code key="CSV-TXT" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.csvTxt"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xls"/>
+          <code key="Shape File" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.shapeFile"/>
+          <code key="KML-KMZ" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.kmlKmz"/>
+          <code key="notCompressed" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.other"/>
+	</codes>
+      </content>
+    </parameter>
+    <parameter key="downloadableFile2.fileSize" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileSize"/>
+      <input type="text" editable="true"
+             size="15" hintResourceKey="catalog.mdParam.downloadableFile.fileSize.hint"/>
+      <validation required="true" valueType="double"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[2]/fileSize">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile2.fileFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileFormat"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[2]/fileFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xml"/>
+          <code key="TXT-CSV" resourceKey="catalog.mdParam.downloadableFile.fileFormat.txtCsv"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xls"/>
+          <code key="KML-KML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.kmlKmz"/>
+          <code key="Shapefile" resourceKey="catalog.mdParam.downloadableFile.fileFormat.shapefile"/>
+          <code key="Map" resourceKey="catalog.mdParam.downloadableFile.fileFormat.map"/>
+	</codes>
+      </content>
+    </parameter>
+  </section>
+  <section key="downloadableFile3" obligation="optional" open="false"
+       select="/dataGov/downloadableFile[3]">
+    <label resourceKey="catalog.mdParam.downloadableFile3.caption"/>
+    <parameter key="downloadableFile3.accessPoint" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.accessPoint"/>
+      <input type="text" editable="true" size="100"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[3]/accessPoint">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile3.mediaFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.mediaFormat"/>
+      <input type="selectWithOther" otherCodeKey="notCompressed" defaultValue="CSV-TXT" editable="true"
+             size="15"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[3]/mediaFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xml"/>
+          <code key="CSV-TXT" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.csvTxt"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.xls"/>
+          <code key="Shape File" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.shapeFile"/>
+          <code key="KML-KMZ" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.kmlKmz"/>
+          <code key="notCompressed" resourceKey="catalog.mdParam.downloadableFile.mediaFormat.other"/>
+	</codes>
+      </content>
+    </parameter>
+    <parameter key="downloadableFile3.fileSize" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileSize"/>
+      <input type="text" editable="true"
+             size="15" hintResourceKey="catalog.mdParam.downloadableFile.fileSize.hint"/>
+      <validation required="true" valueType="double"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[3]/fileSize">
+      </content>
+    </parameter>
+    <parameter key="downloadableFile3.fileFormat" visible="true">
+      <label resourceKey="catalog.mdParam.downloadableFile.fileFormat"/>
+      <input type="selectOneMenu" editable="true"
+             size="50"/>
+      <validation required="true" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/downloadableFile[3]/fileFormat">
+        <codes>
+          <code key="RSS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.rss"/>
+          <code key="XML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xml"/>
+          <code key="TXT-CSV" resourceKey="catalog.mdParam.downloadableFile.fileFormat.txtCsv"/>
+          <code key="XLS" resourceKey="catalog.mdParam.downloadableFile.fileFormat.xls"/>
+          <code key="KML-KML" resourceKey="catalog.mdParam.downloadableFile.fileFormat.kmlKmz"/>
+          <code key="Shapefile" resourceKey="catalog.mdParam.downloadableFile.fileFormat.shapefile"/>
+          <code key="Map" resourceKey="catalog.mdParam.downloadableFile.fileFormat.map"/>
+	</codes>
+      </content>
+    </parameter>
+  </section>
+  <section key="statisticalMethodology1" obligation="optional" open="false"
+      select="/dataGov/statisticalMethodology[1]">
+    <label resourceKey="catalog.mdParam.statistical1.caption"/>
+    <parameter key="statisticalMethodology1.sampling" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.sampling"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/sampling">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.estimation" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.estimation"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/estimation">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.weighting" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.weighting"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/weighting">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.disclosureAvoidance" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.disclosureAvoidance"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/disclosureAvoidance">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.questionnaireDesign" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.questionnaireDesign"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/questionnaireDesign">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.seriesBreaks" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seriesBreaks"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/seriesBreaks">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.nonResponseAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.nonResponseAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/nonResponseAdjustment">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology1.seasonalAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seasonalAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/seasonalAdjustment">
+      </content>
+    </parameter>
+   <parameter key="statisticalMethodology1.dataQuality" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.dataQuality"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[1]/dataQuality">
+      </content>
+    </parameter>
+  </section>
+  <section key="statisticalMethodology2" obligation="optional" open="false"
+      select="/dataGov/statisticalMethodology[2]">
+    <label resourceKey="catalog.mdParam.statistical2.caption"/>
+    <parameter key="statisticalMethodology2.sampling" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.sampling"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/sampling">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.estimation" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.estimation"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/estimation">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.weighting" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.weighting"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/weighting">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.disclosureAvoidance" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.disclosureAvoidance"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/disclosureAvoidance">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.questionnaireDesign" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.questionnaireDesign"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/questionnaireDesign">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.seriesBreaks" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seriesBreaks"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/seriesBreaks">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.nonResponseAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.nonResponseAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/nonResponseAdjustment">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology2.seasonalAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seasonalAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/seasonalAdjustment">
+      </content>
+    </parameter>
+   <parameter key="statisticalMethodology2.dataQuality" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.dataQuality"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[2]/dataQuality">
+      </content>
+    </parameter>
+  </section>
+  <section key="statisticalMethodology3" obligation="optional" open="false"
+      select="/dataGov/statisticalMethodology[3]">
+    <label resourceKey="catalog.mdParam.statistical3.caption"/>
+    <parameter key="statisticalMethodology3.sampling" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.sampling"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/sampling">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.estimation" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.estimation"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/estimation">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.weighting" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.weighting"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/weighting">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.disclosureAvoidance" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.disclosureAvoidance"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/disclosureAvoidance">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.questionnaireDesign" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.questionnaireDesign"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/questionnaireDesign">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.seriesBreaks" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seriesBreaks"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/seriesBreaks">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.nonResponseAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.nonResponseAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/nonResponseAdjustment">
+      </content>
+    </parameter>
+    <parameter key="statisticalMethodology3.seasonalAdjustment" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.seasonalAdjustment"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/seasonalAdjustment">
+      </content>
+    </parameter>
+   <parameter key="statisticalMethodology3.dataQuality" visible="true">
+      <label resourceKey="catalog.mdParam.statistical.dataQuality"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/statisticalMethodology[3]/dataQuality">
+      </content>
+    </parameter>
+  </section>
+  <section key="ogd" obligation="mandatory" open="false" select="/dataGov/ogd">
+    <label resourceKey="catalog.mdParam.ogd.caption"/>
+    <parameter key="ogd.ogdSubmission" visible="true">
+      <label resourceKey="catalog.mdParam.ogd.ogdSubmission"/>
+      <input type="selectOneMenu" editable="true"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="string" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/ogd/ogdSubmission">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="ogd.listedInOpenGov" visible="true">
+      <label resourceKey="catalog.mdParam.ogd.listedInOpenGov"/>
+      <input type="selectOneMenu" editable="true"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="string" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/ogd/listedInOpenGov">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="ogd.highValue" visible="true">
+      <label resourceKey="catalog.mdParam.ogd.highValue"/>
+      <input type="selectOneMenu" editable="true"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="string" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/ogd/highValue">
+        <codes>
+          <code key="No" resourceKey="catalog.mdParam.basic.yesNo.no"/>
+          <code key="Yes" resourceKey="catalog.mdParam.basic.yesNo.yes"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="ogd.whyHighValue" visible="true">
+      <label resourceKey="catalog.mdParam.ogd.whyHighValue"/>
+      <input type="selectOneMenu" editable="true"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="string" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/ogd/whyHighValue">
+        <codes>
+          <code key="1" resourceKey="catalog.mdParam.ogd.whyHighValue.1"/>
+          <code key="2" resourceKey="catalog.mdParam.ogd.whyHighValue.2"/>
+          <code key="3" resourceKey="catalog.mdParam.ogd.whyHighValue.3"/>
+          <code key="4" resourceKey="catalog.mdParam.ogd.whyHighValue.4"/>
+          <code key="5" resourceKey="catalog.mdParam.ogd.whyHighValue.5"/>
+          <code key="6" resourceKey="catalog.mdParam.ogd.whyHighValue.6"/>
+        </codes>
+      </content>
+    </parameter>
+    <parameter key="ogd.howNew" visible="true">
+      <label resourceKey="catalog.mdParam.ogd.howNew"/>
+      <input type="textArea" editable="true" rows="4" cols="85"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="string" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/ogd/howNew">
+      </content>
+    </parameter>
+  </section>
+  <section key="gdg" obligation="optional" open="false" select="/dataGov/gdg">
+    <label resourceKey="catalog.mdParam.gdg.caption"/>
+    <parameter key="gdg.id" visible="true">
+      <label resourceKey="catalog.mdParam.gdg.id"/>
+      <input type="text" editable="true"
+             size="100"/>
+      <validation required="false" valueType="string"/>
+      <content nodeType="single" useSelectForUpdate="true" deleteIfEmpty="false"
+               deleteParentIfEmpty="false"
+               select="/dataGov/gdg/id">
+      </content>
+    </parameter>
+  <parameter key="gdg.contentType">
+    <label resourceKey="catalog.mdParam.gdg.contentType"/>
+    <input type="selectWithOther" otherCodeKey="otherCodeKey" size="30"/>
+    <validation required="false" valueType="string"/>
+    <content useSelectForUpdate="true" select="/dataGov/gdg/contentType" deleteIfEmpty="false">
+        <codes>
+            <code key="Live Data and Maps" resourceKey="fgdc.mdCode.resType.liveData"/>
+            <code key="Downloadable Data" resourceKey="fgdc.mdCode.resType.downloadableData"/>
+            <code key="Offline Data" resourceKey="fgdc.mdCode.resType.offlineData"/>
+            <code key="Static Map Images" resourceKey="fgdc.mdCode.resType.staticMapImages"/>
+            <code key="Other Documents" resourceKey="fgdc.mdCode.resType.document"/>
+            <code key="Applications" resourceKey="fgdc.mdCode.resType.application"/>
+            <code key="Geographic Services" resourceKey="fgdc.mdCode.resType.geographicService"/>
+            <code key="Clearinghouses" resourceKey="fgdc.mdCode.resType.clearingHouse"/>
+            <code key="Map Files" resourceKey="fgdc.mdCode.resType.mapFiles"/>
+            <code key="Geographic Activities" resourceKey="fgdc.mdCode.resType.geographicActivies"/>
+            <code key="otherCodeKey" resourceKey="fgdc.mdCode.other"/>
+        </codes>
+    </content>
+  </parameter>
+  </section>
+</schema>

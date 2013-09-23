@@ -1,0 +1,81 @@
+/**
+ * This is a stylesheet that was made for the GDG Stewards Page. It is intended to match the GDG in general.
+ */
+
+html {height:100%;}
+body {height:100%; margin:0; padding:0;background: url(bgd_body2.jpg)}
+
+table {
+width:985;
+background: #fff;
+padding:0px;
+border: none;
+}
+
+table.banner {
+width:985;
+padding:0px;
+border: none;
+background:none;
+}
+a:link, a:visited { 
+        color:#AE4F0C;
+	font-size:10pt;
+         }
+a:hover, a:focus {
+	border-bottom-style:solid;
+	color:#D03900;
+}
+a.white:visited {
+	color:#FFFFFF;
+	font-size:10pt;
+        }
+
+td.banner {
+	border: none;
+	padding:0px;
+	margin:0; 
+	background: url(banner.jpg);
+}
+th {
+	font: bold 13px Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #999999;
+	border: none;
+	text-transform: small-caps;
+	text-align: left;
+	padding: 4px 4px 4px 4px;
+	background: #FFFFFF;
+}
+
+td.header {
+	font: bold 13px Trebuchet MS, Arial, Helvetica,
+	sans-serif;
+	text-transform: uppercase;
+	border: 1px solid #DBDBDB;
+	border-collapse: collapse;
+	color: #343434;
+	background: url(header.jpg);
+}
+td.red {
+	font: 20px Verdana, Arial, Helvetica,
+	sans-serif;
+	border: none;
+	color: #CC3333;
+	padding: 0px;
+	background: #FFFFFF;
+}
+td {
+	font: 12px Verdana, Arial, Helvetica, sans-serif;
+	border: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #444444;
+}
+td.blank {
+	font: 11px Verdana, Arial, Helvetica,
+	sans-serif;
+	border: none;
+	padding: 0px;
+	background: none;
+}

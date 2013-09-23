@@ -18,8 +18,13 @@
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html" %>
 <%@taglib uri="http://www.esri.com/tags-gpt" prefix="gpt" %>
 
-<h:form id="upload" enctype="multipart/form-data" styleClass="fixedWidth">
+<h:form id="upload" enctype="multipart/form-data" styleClass="fixedWidth"
+        onsubmit="ckCsv();">
 <h:inputHidden value="#{UploadMetadataController.prepareView}"/>
+<f:verbatim>
+    <iframe id="innoMsgsIframe" name="innoMsgsIframe" src="" style="display:none"></iframe>
+    <div id="innoMsgs" style="display:none"></div>
+</f:verbatim>
 
 <script type="text/javascript">
 
@@ -39,6 +44,40 @@ function uploadOnSpecMethodClicked() {
     document.getElementById("upload:meth_explicit").style.display = "block";
     document.getElementById("upload:meth_browse").style.display = "none";
   }
+}
+
+function displayInnoMsgs() {
+    //alert("display upload done");
+    var msg = frames['innoMsgsIframe'].document.getElementsByTagName("body")[0].innerHTML;
+    document.getElementById("innoMsgs").innerHTML = msg;
+    document.getElementById("innoMsgs").style.display = "block";
+    // if there are esri msgs, make them invisible
+    var esriMsgs = document.getElementById("cmPlPgpGptMessages");
+    // restore the submit buttons
+    document.getElementById("innoButtons").style.display = "block";
+    // change the curser to pointer
+    document.getElementById("gptBody").style.cursor = "default";
+    //alert("esriMsgs: "+esriMsgs);
+    if (esriMsgs != null)
+        esriMsgs.style.display = "none";
+}
+
+function ckCsv() {
+    // if this is a .csv, post to uploadDataGov
+    var fname = document.getElementById("upload:uploadXml").value.toUpperCase();
+    //alert("fname: "+fname);
+    if (fname.lastIndexOf(".CSV")==fname.length-4) {
+       //alert("is csv");
+       document.getElementById("upload").action = "UploadDataGov/";
+       document.getElementById('upload').target = "innoMsgsIframe";
+       // hide the submit buttons
+       document.getElementById("innoButtons").style.display = "none";
+       // change the curser to hourglass
+       document.getElementById("gptBody").style.cursor = "wait";
+    } else {
+       document.getElementById("upload").action = "<%= request.getContextPath() %>/catalog/publication/uploadMetadata.page";
+       document.getElementById('upload').target = null;
+    }
 }
 
 </script>
@@ -78,8 +117,7 @@ function uploadOnSpecMethodClicked() {
   <h:panelGroup id="meth_browse" style="#{UploadMetadataController.styleForBrowseMethod}">
 	  <f:verbatim>
 	    <label class="requiredField" id="upload:lbluploadXml" for="upload:uploadXml"><%=com.esri.gpt.framework.jsf.PageContext.extractMessageBroker().retrieveMessage("catalog.publication.uploadMetadata.label.file")%></label>
-	    <input type="file" id="upload:uploadXml" name="upload:uploadXml" size="50"
-	       accept="application/xml,text/xml"/>
+	    <input type="file" id="upload:uploadXml" name="upload:uploadXml" size="50"/>
 	  </f:verbatim>
   </h:panelGroup>
   
@@ -95,6 +133,7 @@ function uploadOnSpecMethodClicked() {
   <% // buttons %>
   <f:verbatim><br/></f:verbatim>
   <h:panelGroup>
+    <f:verbatim><div id="innoButtons"></f:verbatim>
     <h:commandButton id="submit"
       value="#{gptMsg['catalog.publication.uploadMetadata.button.submit']}"
       action="#{UploadMetadataController.getNavigationOutcome}"
@@ -105,6 +144,7 @@ function uploadOnSpecMethodClicked() {
       actionListener="#{UploadMetadataController.processAction}">
       <f:attribute name="command" value="validate" />
    </h:commandButton>
+   <f:verbatim></div></f:verbatim>
   </h:panelGroup>
   
 </h:panelGrid>

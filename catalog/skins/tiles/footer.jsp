@@ -17,3 +17,6 @@
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 
 <h:outputText id="gptFooterStatement" escape="false" value="#{gptMsg['catalog.content.footer.statement']}"/>
+<f:verbatim>
+ 
+</f:verbatim>

@@ -38,33 +38,76 @@
         id="mainHome" 
         action="catalog.main.home"
         value="#{gptMsg['catalog.main.home.menuCaption']}"
-        styleClass="#{PageContext.tabStyleMap['catalog.main.home']}"/>
+        styleClass="#{PageContext.tabStyleMap['catalog.main.home']}"
+        title="Home"/>
+
+        <h:commandLink
+        	id="contentAbout"
+        	action="catalog.content.about"
+        	value="#{gptMsg['catalog.content.about.menuCaption']}"
+      	styleClass="#{PageContext.tabStyleMap['catalog.content.about']}"
+        title="About the EDG"/>
+
 	<h:commandLink 
         id="searchHome" 
         action="catalog.search.home" 
         value="#{gptMsg['catalog.search.home.menuCaption']}"
-        styleClass="#{PageContext.tabStyleMap['catalog.search.home']}"/>                 
+        styleClass="#{PageContext.tabStyleMap['catalog.search.home']}"
+        title="Search Metadata"/>
 
   <h:commandLink 
         id="browse"
         action="catalog.browse" 
         styleClass="#{PageContext.tabStyleMap['catalog.browse']}"
         value="#{gptMsg['catalog.browse.menuCaption']}"
-        rendered="#{PageContext.tocsByKey['browseCatalog']}" />
+        rendered="#{PageContext.tocsByKey['browseCatalog']}"
+        title="Browse Metadata"/>
  
+  <h:commandLink
+        id="data"
+        action="catalog.data.home"
+        value="#{gptMsg['catalog.data.home.menuCaption']}"
+      	styleClass="#{PageContext.tabStyleMap['catalog.data']}"
+        title="Data"/>
+
+  <h:commandLink
+        id="components"
+        action="catalog.components.home"
+        value="#{gptMsg['catalog.components.home.menuBar.menuCaption']}"
+      	styleClass="#{PageContext.tabStyleMap['catalog.components']}"
+        title="Reuse Components of the EDG"/>
+ 
+  <h:commandLink
+        id="resources"
+        action="catalog.resources.home"
+        value="#{gptMsg['catalog.resources.home.menuCaption']}"
+      	styleClass="#{PageContext.tabStyleMap['catalog.resources']}"
+        title="Resources"/>
+
   <h:commandLink 
         id="publicationManageMetadata"
         action="catalog.publication.manageMetadata" 
         styleClass="#{PageContext.tabStyleMap['catalog.publication']}"
         value="#{gptMsg['catalog.publication.manageMetadata.menuCaption']}"
         rendered="#{PageContext.roleMap['gptPublisher']}"
-        actionListener="#{ManageMetadataController.processAction}" />
+        actionListener="#{ManageMetadataController.processAction}"
+        title="Manage Metadata"/>
+
+    <h:commandLink
+        id="collection" 
+        action="catalog.collection.home"
+        value="#{gptMsg['catalog.collection.home.menuCaption']}"
+        styleClass="#{PageContext.tabStyleMap['catalog.collection.home']}"
+        rendered="#{PageContext.roleMap['gptPublisher']}"
+        title="Collection"/>
+
 	<h:commandLink
         id="validationManageMetadata" 
         action="catalog.publication.validateMetadata"
         styleClass="#{PageContext.tabStyleMap['catalog.publication']}"
         value="#{gptMsg['catalog.publication.validateMetadata.menuCaption']}"
-        rendered="#{PageContext.roleMap['gptRegisteredUser'] and not PageContext.roleMap['gptPublisher']}"/>
+        rendered="#{PageContext.roleMap['gptRegisteredUser'] and not PageContext.roleMap['gptPublisher']}"
+        title="Validate Metadata"/>
 
 	<h:commandLink 
         id="extractDownload"

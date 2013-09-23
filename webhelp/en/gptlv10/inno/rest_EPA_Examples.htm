@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>EPA Examples Using the REST API</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>EPA Examples Using the REST API</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="RESTAPI_Details"></a>
+<h2>EPA Examples Using the REST API</h2>
+
+<p>The GDG's REST API provides you with a powerful way to access and embed GDG content directly in other web applications or pages.  The GDG REST interface is available through both <b>internet</b> and <b>intranet</b> access points.  The intranet URL provides users with access to the full set of EPA records (restricted and unrestricted) without requiring that users login, while the internet URL only provides those users who are logged into the GDG with access to restricted records.  Only those users who can get to EPA's intranet can access the intranet URL.  Those who cannot access EPA's intranet must use the internet URL.  <br><br>The following information is intended to illustrate EPA-specific examples of using the GDG's REST interface. For each example provided below, an internet and intranet URL is provided.
+
+
+For more information on all REST parameters, please see the <a href="rest_details.htm">REST details</a> page.<br><br>
+<ul>
+<li>Facility search output in GeoRSS format (<b>internet</b>): 
+<a target="_blank" href="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&xsl=metadata_to_html_full">https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&xsl=metadata_to_html_full</a></p>
+</li>
+<li>Facility search output in GeoRSS format (<b>intranet</b>): 
+<a target="_blank" href="http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&xsl=metadata_to_html_full">http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&xsl=metadata_to_html_full</a></p>
+</li>
+
+<li>Facility search output in GeoRSS format with the content type (live data) specified (<b>internet</b>): 
+<a target="_blank" href="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&contentType=liveData&xsl=metadata_to_html_full">https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&contentType=liveData&xsl=metadata_to_html_full</a>
+
+<li>Facility search output in GeoRSS format with the content type (live data) specified (<b>intranet</b>): 
+<a target="_blank" href="http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&contentType=liveData&xsl=metadata_to_html_full">http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=georss&contentType=liveData&xsl=metadata_to_html_full</a>
+
+<li>Facility search with html output (<b>internet</b>): <a target="blank" href="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full">https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full</a>
+
+<li>Facility search with html output (<b>intranet</b>): <a target="blank" href="http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full">http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full</a>
+
+<li>Facility search with html output using a stylesheet (<b>internet</b>): <a target="blank" href="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css">https://geogateway.epa.gov/geoportal/rest/find/document?searchText=air+quality&f=html&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css</a>
+
+<li>Facility search with html output using a stylesheet (<b>intranet</b>): <a target="blank" href="http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=facilities&f=html&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css">http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=air+quality&f=html&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css</a>
+
+<li>Search for term "ecoregions" with KML output (<b>internet</b>): <a target="blank" href="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=ecoregions&f=kml&xsl=metadata_to_html_full">https://geogateway.epa.gov/geoportal/rest/find/document?searchText=ecoregions&f=kml&xsl=metadata_to_html_full</a>
+
+<li>Search for term "ecoregions" with KML output (<b>intranet</b>): <a target="blank" href="http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=ecoregions&f=kml&xsl=metadata_to_html_full">http://geogateway-intranet.epa.gov/geoportal/rest/find/document?searchText=ecoregions&f=kml&xsl=metadata_to_html_full</a>
+
+<li>Results can also be embedded into a web page using the iframe tag:
+iframe width="500" height="200"  src="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=toxic+release&f=html&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css"
+<br>The above code would appear in your web page as follows:<br>
+<iframe width="500" height="200" src="https://geogateway.epa.gov/geoportal/rest/find/document?searchText=toxic+release&xsl=metadata_to_html_full&f=html&xsl=metadata_to_html_full&xsl=metadata_to_html_full&style=https://geogateway.epa.gov/geoportal/webhelp/en/geoportal_931/rest.css">
+
+</ul>
+
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div>
+
+</body>
+</html>

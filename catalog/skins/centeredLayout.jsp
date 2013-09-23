@@ -19,16 +19,30 @@
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 <%@taglib prefix="tiles" uri="http://struts.apache.org/tags-tiles"  %>
 <%@taglib uri="http://www.esri.com/tags-gpt" prefix="gpt" %>
+<%
+  String cl_jsapi = "";
+  String cl_pageId = com.esri.gpt.framework.jsf.PageContext.extract().getPageId();
+  if ((cl_pageId != null) && cl_pageId.equals("catalog.search.home")) {
+    String tmp = com.esri.gpt.framework.context.RequestContext.extract(
+                 request).getApplicationConfiguration().getInteractiveMap().getJsapiUrl();
+    if ((tmp != null) && (tmp.trim().length() > 0)) {
+      tmp = com.esri.gpt.framework.util.Val.escapeXmlForBrowser(tmp);
+      cl_jsapi = "<script type='text/javascript'>djConfig = {parseOnLoad: true, locale: 'en'};</script>";
+      cl_jsapi += "<script type='text/javascript' src='"+tmp+"'></script>";
+    }
+  }
+%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <f:view>
 <f:loadBundle basename="gpt.resources.gpt" var="gptMsg"/>
 <gpt:prepareView/>
-<html lang="<%=request.getLocale().getLanguage()%>">
+<html>
 <head>
 	<title><%=com.esri.gpt.framework.jsf.PageContext.extract().getSiteTitle()%></title>
-    <jsp:include page="/catalog/skins/lookAndFeel.jsp"/>
+  <jsp:include page="/catalog/skins/lookAndFeel.jsp"/>
 	<tiles:insert attribute="head" flush="false"/>
+	<%=cl_jsapi%>
 </head>
 <body>
 	<div id="gptMainWrap" style="position: static;">
@@ -44,7 +58,7 @@
 			</div>
 		</div>
 		
-		<div id="gptBanner">
+		<div id="gptBanner" title="EDG Banner">
 			<tiles:insert attribute="banner" flush="false"/>
 		</div>
 		<div style="clear:both"></div>

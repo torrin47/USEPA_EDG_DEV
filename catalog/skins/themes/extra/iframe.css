@@ -1,0 +1,61 @@
+
+* html .visualIEFloatFix { height: 0.01%; }
+ 
+BODY {
+	font-size: 8pt;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-variant: small-caps;
+	margin: 5;
+	padding: 5;
+	text-align: left;
+	color: "#FFFFFF";
+	background-color: "#517986";
+}
+div.title {
+	font-size: 8pt;
+	BACKGROUND-COLOR: #C4DBDF;
+	FONT-STYLE: bold;
+	font-variant: small-caps;
+	color: #3F78BE;
+	opacity: ".5";
+	PADDING: 1px;
+
+}
+div.abstract {
+	font-size: 8pt;
+	BACKGROUND-COLOR: #C7DEE2;
+	FONT-STYLE: normal;
+	font-variant: small-caps;
+	color: #000000;
+	opacity: ".5";
+	PADDING: 1px;
+}
+div.links {
+	font-size: 7pt;
+	BACKGROUND-COLOR: #454545;
+	FONT-STYLE: normal;
+	font-variant: small-caps;
+	color: #FFFFFF;
+	opacity: ".5";
+	PADDING: 1px;
+	PADDING-BOTTOM: 1px;
+	BORDER-BOTTOM: #808080 1px dashed;
+
+
+}
+
+a:link { 
+         color: #FFFFFF;
+         }
+a:visited { 
+         color: #FF0000;
+         }
+a:hover { 
+         color: #FF0000;
+         background-color: #F1F58F;
+         text-decoration: none;
+         }
+a:active { 
+         color: #FF0000;
+         }
+

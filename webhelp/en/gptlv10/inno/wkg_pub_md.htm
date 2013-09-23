@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+             
+<html>
+
+         <head>
+         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+         <title>How to Publish Metadata</title>
+         <link href="shbasic.css" type="text/css" rel="stylesheet" />
+<link href="webhelp.css" type="text/css" rel="stylesheet" />
+         <script language="javascript" type="text/javascript" src="webhelp.js"></script>
+         </head>
+      
+<body onload="ifWebPrint()">
+<table  class="wh_title" cellpadding="0" cellspacing="0">
+   <tr>
+      <td valign="top" colspan="2">
+         <h1>How to Publish Metadata</h1>
+      </td>
+   </tr>
+   <tr>
+      <td>Release 9.3.1</td>
+      <td align="right">
+         <a id="wpart0" href="#" onclick="javascript:genEmailLink(this)">
+            <img border="0" src="email_text.gif" alt="E-mail This Topic"/>
+         </a>
+         <a id="wpart1" href="#" onclick="javascript:printTopic();">
+            <img border="0" src="printable.gif" alt="Printable Version"/>
+         </a>
+         <a id="wpart2" href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">
+            <img border="0" src="feedback_text.gif" alt="Give Us Feedback"/>
+         </a>
+      </td>
+   </tr>
+</table>
+<div class="page_content"><a name="publishing"></a>
+<h2>How to Publish Metadata</h2>
+
+<p>The success of a Geoportal depends on the quality metadata records it hosts.  Metadata must be published to the Geoportal and Approved before it can be discovered.  Publishers can upload metadata or create metadata to publish it to the Geoportal.  Steps below discuss how.<ol>
+<li>
+<a href="#become_pub">Become a Publisher </a>
+</li>
+<li>
+<a href="#create_metadata">Create Metadata through the Geoportal Interface</a>
+</li>
+<li>
+<a href="#upload_metadata">Upload Metadata </a>
+</li>
+<li>
+<a href="#edit_metadata">Edit Metadata</a>
+</li>
+</ol>
+</p>
+<a name="become_pub"></a>
+<h3>Become a Publisher</h3>
+
+<p>There are three steps to becoming a publisher:<ol>
+<li>
+<a href="wkg_accntt.htm">Create a regular registered user account</a>
+</li>
+<li>Send a message requesting to be made a publisher to the Geoportal administrator. Do this by clicking on the "<a href="wkg_fdbck.htm">Feedback</a>" link at the top of the page, and writing an email from that interface. The Geoportal administrator will work with the Geoportal's security administrator to grant your login Publisher status. </li>
+<li>Upon approval of your publisher status, additional tabs will appear in your interface the next time you log in to the Geoportal. As a publisher, you will be able to publish metadata through an online form (<a href="#create_metadata">create metadata</a>), <a href="#upload_metadata">upload metadata </a>through the Geoportal interface, <a href="#edit_metadata">edit metadata </a>you created in the Geoportal previously, publish metadata through ArcCatalog using the <a href="ext_pub_clnt.htm"> Geoportal extension Publish Client</a>, or <a href="hrvst_rgstr.htm">register your metadata repository </a> for harvesting.</li>
+</ol>
+</p>
+<a name="create_metadata"></a>
+<h3>Create Metadata through the Geoportal Interface</h3>
+
+<p>The Geoportal Create Metadata interface is a useful tool for registering a data resource that does not already have metadata associated with it.  It is also useful for registering metadata for a live map service.<ul>
+<li>To create metadata in the Geoportal, first login as a publisher user. Then click on the "Administration" tab, and click the "Create" link at the top of the page.</li>
+<li>On the next screen, a list of the available metadata standards supported by the Geoportal will display. Click the radial next to one of the standards. This is the standard to which the metadata you create in the Geoportal shall conform.</li>
+<li>A form with many fields will load.  Fill out as much information as possible about your data resource. Fields shown in bold-italic are mandatory; the form will not publish if these are not filled out. Other fields are optional.</li>
+<li>When you have finished filling out the form, there are three options at the bottom of the screen. Choose any of them, according to their functionality: <ul>
+<li>Validate: submits the metadata form to the Geoportal and will report any errors or missing values necessary for the document to publish.</li>
+<li>Save as Draft: Saves the metadata document with a "Draft" status. If you want to finish the record later, you will need to login, go to the Administration tab and select your draft document, and click the pencil icon to open the document in this Create form again. </li>
+<li>Submit Metadata Registration: submits the form to the Geoportal.</li>
+</ul>
+</li>
+<li>When you are ready to publish the metadata to the Geoportal, click the "Submit Metadata Registration" button and your record will be published. Remember that the record will not be retrieved by Searches until it has been approved by the Geoportal administrator.</li>
+<li>You can see your created record by clicking on the Administration tab.  It will be listed in the table of records.</li>
+</ul>
+</p>
+<a name="upload_metadata"></a>
+<h3>Upload Metadata </h3>
+
+<p>If you have metadata in XML form for your data resource and want to register it with the Geoportal, you can upload it from the Geoportal interface. You can also use the "Specify a network path" option to browse to a web location and upload multiple documents from the location, or create metadata for services listed at a network url such as <a href="http://server.arcgisonline.com/ArcGIS/rest/services"> ArcGIS Online</a>. Metadata generated or published by this method is by default of the Dublin Core metadata schema, but this is <a href="ntwrk_upld_schma.htm"> configurable</a>.<br></br>
+<br></br>To upload, follow these steps:<ul>
+<li>Login to the Geoportal</li>
+<li>Click the Administration tab</li>
+<li>Click the Upload link at the top of the screen</li>
+<li>Verify that mandatory elements are populated in your metadata document. If they are not, the document will not publish to the Geoportal. You can check the validity of the record by loading the record on the upload page and clicking the "Validate" link.</li>
+<li>There are two options for browsing to your file; choose one of them and browse to the file: <ul>
+<li>Browse for a local file: use if the metadata is stored on the machine from which you are accessing the Geoportal or is on a mapped network drive that is accessible from your machine.</li>
+<li>Specify a network path: use if the metadata is available through a UNC path on your network or is accessible through a URL, or if you want to create metadata for services hosted online. Paste in the network location or URL.<br></br>
+<br></br>It is possible to publish content from ArcGIS Server REST services, ArcGIS Server REST folders, from an entire ArcGIS Server instance, Open Geospatial Consortium (OGC) services, and GeoRSS feeds. The Geoportal will use the information available from the URL to generate a metadata document for the online resource. The table below shows format suggestions for syntax:<table>
+<tr>
+<th>Service Type</th>
+<th>Example</th>
+</tr>
+<tr>
+<td>OGC WMS, WFS, WCS, WPS, SOS</td>
+<td>http://sampleserver1.arcgisonline.com/ArcGIS/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/WMSServer?request=GetCapabilities&amp;service=WMS</td>
+</tr>
+<tr>
+<td>OGC KML 2.2</td>
+<td>http://www.geodata.gov/Portal/rest/find/document?searchText=kml&amp;isPartOf=geodata.gov&amp;start=1&amp;max=12&amp;f=kml</td>
+</tr>
+<tr>
+<td>GeoRSS</td>
+<td>http://earthquake.usgs.gov/eqcenter/catalogs/1day-M2.5.xml</td>
+</tr>
+<tr>
+<td>ArcGIS Server Instance</td>
+<td>http://server.arcgisonline.com/ArcGIS/rest/services</td>
+</tr>
+<tr>
+<td>ArcGIS Server REST Folder</td>
+<td>http://server.arcgisonline.com/ArcGIS/rest/services/Reference</td>
+</tr>
+<tr>
+<td>ArcGIS Server REST Service</td>
+<td>http://server.arcgisonline.com/ArcGIS/rest/services/Reference/MapServer/ESRI_Boundaries_World_2D</td>
+</tr>
+</table>
+<b>Note:</b> If you notice errors with uploading the service, you can verify that service is running by connecting to it in ArcCatalog or accessing it from a browser and thus rule out that the service itself is not causing the error. </li>
+</ul>
+</li>
+<li>Click "Upload". After a few moments, you will receive a message saying one of the following:<ul>
+<li>Your document was published successfully. This means that it is posted in the Geoportal, and awaits administrator approval before it can be discovered through search.</li>
+<li>Your document was replaced successfully. This means that it has replaced another existing document in the Geoportal with this uploaded version. This occurs when you are republishing a document to update it.</li>
+<li>An error message. There are many different errors. Examples are failure to publish because the document is missing mandatory elements, failure because the metadata schema is unrecognized, or that the document itself cannot be parsed (the document may not be xml, or a valid schema). </li>
+</ul>
+</li>
+<li>You can see your uploaded record by clicking on the Administration tab.  It will be listed in the table of records.</li>
+</ul>
+<br></br>
+<b>NOTE</b>: It is also possible to develop a custom client to perform insert, update, and delete operations to the Geoportal through the Geoportal transaction <a href="geoportal_csw_cmpnts.htm"> CS-W operations</a>.</p>
+<a name="edit_metadata"></a>
+<h3>Edit Metadata</h3>
+
+<p>The metadata editor online form is accessed from the "Administration" tab, when a publisher or administrator clicks the pencil icon next to a record in the document table.  The metadata editor facilitates creating metadata quickly and in a consistent manner. Information input in the metadata editor online form will be used to create the raw XML for the metadata document.<br></br>
+<ul>
+<li>
+<b>
+<i>Sections</i>
+</b>
+<br></br>The metadata editor online form has different sections publishers can fill out. If a section has a blank box next to it, then it is not mandatory but optional. To activate that portion of the form and enter in information, put a check in the blank box.</li>
+<li>
+<b>
+<i>Mandatory Elements</i>
+</b>
+<br></br>Mandatory elements are shown in bold type, and must be filled out or the form will not submit. If a publisher leaves a mandatory element blank, the portal will respond that the document failed to publish when the publisher submits the form. Some elements that are not mandatory become mandatory when its section is activated (activate a section by checking the checkbox next to it).</li>
+</ul>
+</p>
+</div>
+<div id="wh_footer" class="wh_footer" align="center" >
+   Please visit the <a href="http://support.esri.com/index.cfm?fa=homepage.feedback.websiteform" target="_blank">Feedback</a> page to comment or give suggestions.<br>
+   Copyright &copy; Environmental Systems Research Institute, Inc.
+</div> 
+
+</body>
+</html>
